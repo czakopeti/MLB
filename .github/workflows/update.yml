@@ -1,0 +1,67 @@
+name: MLB Dashboard Update
+
+on:
+  schedule:
+    # 11:00 UTC = 13:00 CEST — délelőtti lineup bejelentések után
+    - cron: '0 11 * * *'
+    # 14:00 UTC = 16:00 CEST — lineup lock előtt, utolsó odds frissítés
+    - cron: '0 14 * * *'
+  workflow_dispatch:   # kézi futtatás gombbal is
+
+permissions:
+  contents: write      # kell a commit & push-hoz
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # FanGraphs FIP — csak hetente frissül (ha cache > 7 nap)
+      - name: Refresh FIP cache (weekly)
+        run: |
+          if python fetch_pitchers.py --check; then
+            echo "FIP cache fresh, skipping"
+          else
+            echo "FIP cache stale, refreshing"
+            python fetch_pitchers.py --force
+          fi
+
+      # Elo bootstrap: csak akkor fut, ha még nincs elo_ratings.json
+      # Kézzel is futtatható: Actions → Run workflow → check "bootstrap"
+      - name: Bootstrap Elo (first run only)
+        if: ${{ !hashFiles('data/elo_ratings.json') }}
+        run: python elo_engine.py --bootstrap 2022 2023 2024 2025
+        env:
+          # Bootstrap sok API hívás — nincs API key szükséges (MLB Stats API szabad)
+          PYTHONUNBUFFERED: "1"
+
+      # Fő pipeline
+      - name: Run pipeline
+        run: python main.py
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          NTFY_TOPIC:   ${{ secrets.NTFY_TOPIC }}
+          PYTHONUNBUFFERED: "1"
+
+      # index.html + data/ commitolása és pusholása
+      - name: Commit & push updated dashboard
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html data/todays_games.json data/elo_ratings.json
+          # Ha nincs változás, ne failelj
+          git diff --staged --quiet || git commit -m "auto: MLB dashboard $(date -u '+%Y-%m-%d %H:%M') UTC"
+          git push
