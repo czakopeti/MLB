@@ -106,14 +106,19 @@ def fetch_pitching_stats(season: int) -> dict[str, dict]:
 
         fip = calc_fip(k, bb, hbp, hr, ip)
 
+        wins   = int(stat.get("wins",   0) or 0)
+        losses = int(stat.get("losses", 0) or 0)
         result[name] = {
-            "fip": fip,
-            "ip":  round(ip, 1),
-            "k":   int(k),
-            "bb":  int(bb),
-            "hr":  int(hr),
-            "hbp": int(hbp),
-            "gs":  gs,
+            "fip":    fip,
+            "ip":     round(ip, 1),
+            "k":      int(k),
+            "bb":     int(bb),
+            "hr":     int(hr),
+            "hbp":    int(hbp),
+            "gs":     gs,
+            "wins":   wins,
+            "losses": losses,
+            "record": f"{wins}-{losses}" if (wins + losses) > 0 else "",
         }
 
     return result
@@ -180,12 +185,17 @@ def save_fip(curr: dict, prev: dict) -> None:
         fip_p = fuzzy_get(name, prev_vals)
         b_fip = blended_fip(fip_c, ip_c, fip_p)
 
+        w = c.get("wins", 0)
+        l = c.get("losses", 0)
         merged[name] = {
             "fip":         fip_c,
             "ip":          ip_c,
             "fip_prev":    fip_p,
             "blended_fip": b_fip,
             "gs":          c.get("gs", 0),
+            "wins":        w,
+            "losses":      l,
+            "record":      f"{w}-{l}" if (w + l) > 0 else "",
             "regressed":   (ip_c or 0) < IP_MIN and fip_c is not None,
         }
 
@@ -216,6 +226,20 @@ def load_fip() -> dict[str, float | None]:
 def lookup_fip(pitcher_name: str, fip_map: dict) -> float | None:
     """Fuzzy FIP lookup — use instead of fip_map.get(name)."""
     return fuzzy_get(pitcher_name, fip_map)
+
+
+def load_records() -> dict[str, str]:
+    """Returns {pitcher_name: 'W-L'} for all pitchers in cache."""
+    if not FIP_FILE.exists():
+        return {}
+    doc  = json.loads(FIP_FILE.read_text())
+    data = doc.get("pitchers", {})
+    return {name: v.get("record", "") for name, v in data.items()}
+
+
+def lookup_record(pitcher_name: str, record_map: dict) -> str:
+    """Fuzzy W-L record lookup."""
+    return fuzzy_get(pitcher_name, record_map) or ""
 
 
 def is_stale() -> bool:

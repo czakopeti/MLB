@@ -63,8 +63,9 @@ def main():
     ee.update_yesterday()
     elo_state = ee.load_ratings()
 
-    # Load FIP data
-    fip_data = fp.load_fip()
+    # Load FIP data + W-L records
+    fip_data    = fp.load_fip()
+    record_data = fp.load_records()
 
     doc = json.loads(fetch_mlb.OUT_FILE.read_text())
     for game in doc["games"]:

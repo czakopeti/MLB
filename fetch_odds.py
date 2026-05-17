@@ -5,6 +5,7 @@ Writes data/odds_raw.json and annotates data/todays_games.json in place.
 """
 
 import json, logging, os
+from datetime import datetime, timezone
 from pathlib import Path
 import requests
 
@@ -12,15 +13,39 @@ DATA_DIR   = Path("data")
 GAMES_FILE = DATA_DIR / "todays_games.json"
 ODDS_FILE  = DATA_DIR / "odds_raw.json"
 
+# ── Provider config ───────────────────────────────────────────────────────────
+# OddsPapi (https://oddspapi.io) — tartalmazza a Pinnacle-t, 250 req/hó ingyenes
+# Regisztráció: https://oddspapi.io/register
+# Alternatíva: the-odds-api.com (500 kredit/hó, DE Pinnacle nélkül)
+#
+# Ha the-odds-api.com-ot használsz, állítsd PROVIDER = "theodds"-re
+# és add meg az ottani kulcsot ODDS_API_KEY-ként.
+
+PROVIDER = os.environ.get("ODDS_PROVIDER", "oddspapi")  # "oddspapi" | "theodds"
 API_KEY  = os.environ.get("ODDS_API_KEY", "")
-BASE_URL = "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds"
-PARAMS   = {
-    "apiKey":   API_KEY,
-    "regions":  "eu",
-    "markets":  "h2h",
+
+# OddsPapi endpoint
+ODDSPAPI_URL = "https://api.oddspapi.io/v1/odds"
+ODDSPAPI_PARAMS = {
+    "token":    API_KEY,
+    "sport":    "baseball",
+    "league":   "MLB",
+    "bookmakers": "pinnacle",
+    "oddsFormat": "american",
+}
+
+# The Odds API endpoint (fallback, Pinnacle nem garantált)
+THEODDS_URL = "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds"
+THEODDS_PARAMS = {
+    "apiKey":     API_KEY,
+    "regions":    "eu",
+    "markets":    "h2h",
     "oddsFormat": "american",
     "bookmakers": "pinnacle",
 }
+
+BASE_URL = ODDSPAPI_URL if PROVIDER == "oddspapi" else THEODDS_URL
+PARAMS   = ODDSPAPI_PARAMS if PROVIDER == "oddspapi" else THEODDS_PARAMS
 
 log = logging.getLogger(__name__)
 
@@ -37,13 +62,20 @@ def remove_vig(p_home: float, p_away: float) -> tuple[float, float]:
 
 
 def fetch_odds() -> dict:
-    log.info("Fetching Pinnacle MLB odds …")
+    log.info("Fetching Pinnacle MLB odds (provider=%s) …", PROVIDER)
     resp = requests.get(BASE_URL, params=PARAMS, timeout=20)
     resp.raise_for_status()
     raw = resp.json()
-    ODDS_FILE.write_text(json.dumps(raw, indent=2))
-    log.info("  %d events returned", len(raw))
-    return {e["id"]: e for e in raw}
+
+    # OddsPapi wraps data in {"data": [...]}; The Odds API returns [...] directly
+    events = raw.get("data", raw) if isinstance(raw, dict) else raw
+    if not isinstance(events, list):
+        log.warning("Unexpected odds response format: %s", type(events))
+        events = []
+
+    ODDS_FILE.write_text(json.dumps(events, indent=2))
+    log.info("  %d events returned", len(events))
+    return {e["id"]: e for e in events}
 
 
 def _normalize(name: str) -> str:
@@ -51,7 +83,22 @@ def _normalize(name: str) -> str:
 
 
 def annotate_games(games_doc: dict, odds_map: dict) -> dict:
+    now_utc = datetime.now(timezone.utc)
     for game in games_doc["games"]:
+
+        # Skip games that have already started — those would be live odds
+        game_dt_str = game.get("game_date", "")
+        if game_dt_str:
+            try:
+                game_dt = datetime.fromisoformat(game_dt_str.replace("Z", "+00:00"))
+                if game_dt < now_utc:
+                    log.info("Skipping live/finished game: %s @ %s (started %s UTC)",
+                             game["away_abbr"], game["home_abbr"],
+                             game_dt.strftime("%H:%M"))
+                    continue
+            except Exception:
+                pass
+
         home_n = _normalize(game["home_name"])
         away_n = _normalize(game["away_name"])
         match  = None
@@ -94,6 +141,17 @@ def main():
         raise RuntimeError("ODDS_API_KEY env var not set")
     odds_map   = fetch_odds()
     games_doc  = json.loads(GAMES_FILE.read_text())
+
+    # Save pre-game odds snapshot for later evaluation
+    snapshot_file = DATA_DIR / f"odds_pregame_{games_doc.get('date','today')}.json"
+    if not snapshot_file.exists():   # only save once per day (first run)
+        snapshot_file.write_text(json.dumps({
+            "fetched_at": datetime.now(timezone.utc).isoformat(),
+            "date":       games_doc.get("date"),
+            "odds_raw":   list(odds_map.values()),
+        }, indent=2))
+        log.info("Pre-game odds snapshot → %s", snapshot_file)
+
     games_doc  = annotate_games(games_doc, odds_map)
     GAMES_FILE.write_text(json.dumps(games_doc, indent=2))
     log.info("Odds annotated → %s", GAMES_FILE)
