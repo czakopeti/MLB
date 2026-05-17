@@ -119,34 +119,13 @@ DIVISION_MAP: dict[str, str] = {
 
 def fetch_fte_csv() -> dict[str, dict]:
     """
-    Download FTE MLB Elo CSV and return a dict keyed by (date, team1, team2)
-    for fast lookup.  Also build a secondary index by (team1, team2) for
-    today's rows.
-    Returns: {(team1_abbr, team2_abbr): row_dict}  — only today's games.
+    FiveThirtyEight megszűnt 2023-ban, a GitHub archívum törölve.
+    Ez a függvény mindig üres dict-et ad vissza — a saját elo_engine.py
+    átvette az FTE szerepét, így ez az adatforrás teljesen felesleges.
+    Meghagyjuk a függvényt a visszafele-kompatibilitás miatt.
     """
-    log.info("Downloading FiveThirtyEight MLB Elo CSV …")
-    resp = requests.get(FTE_CSV_URL, timeout=30)
-    resp.raise_for_status()
-
-    reader = csv.DictReader(io.StringIO(resp.text))
-    today_rows: dict[tuple, dict] = {}
-
-    for row in reader:
-        if row.get("date") != TODAY_STR:
-            continue
-        team1 = row["team1"].strip()
-        team2 = row["team2"].strip()
-        today_rows[(team1, team2)] = row
-
-    if not today_rows:
-        log.warning(
-            "⚠️  FTE CSV has NO rows for %s.  "
-            "FiveThirtyEight shut down in 2023 — the archive may be stale.  "
-            "model_prob_home/away will be None; run fetch_elo_fallback() instead.",
-            TODAY_STR,
-        )
-    log.info("FTE rows for today (%s): %d", TODAY_STR, len(today_rows))
-    return today_rows
+    log.info("FTE CSV skip — saját Elo engine aktív (elo_engine.py)")
+    return {}
 
 
 def get_fte_row(fte_index: dict, home_abbr: str, away_abbr: str) -> dict | None:
