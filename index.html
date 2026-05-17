@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MLB Value Dashboard — 2026-05-17</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1525;--sur:#111e33;--brd:#1e2f4a;--brd2:#243651;
+  --tx:#c8d8f0;--mu:#5a7499;--acc:#3b82f6;--acc2:#60a5fa;
+  --gn:#22c55e;--rd:#ef4444;--am:#f59e0b;--amd:#431407;--rdd:#450a0a;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);font-size:14px;min-height:100vh;}
+.topbar{position:sticky;top:0;z-index:100;}
+header{background:#0a1220ee;backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--brd);padding:10px 16px;display:flex;
+  align-items:center;justify-content:space-between;gap:12px;}
+.hl{display:flex;align-items:center;gap:10px;}
+.hico{width:26px;height:26px;background:var(--acc);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;font-size:14px;}
+h1{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.05em;color:#fff;}
+.hm{font-family:var(--mono);font-size:11px;color:var(--mu);white-space:nowrap;}
+.ld{display:inline-block;width:6px;height:6px;background:var(--gn);border-radius:50%;
+  margin-right:5px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.legend{display:flex;gap:12px;padding:7px 16px;flex-wrap:wrap;
+  border-bottom:1px solid var(--brd);background:var(--sur);}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--mu);font-family:var(--mono);}
+.summary{display:flex;gap:16px;padding:7px 16px;
+  border-bottom:1px solid var(--brd);background:var(--sur);flex-wrap:wrap;}
+.si{display:flex;flex-direction:column;}
+.sv{font-family:var(--mono);font-size:17px;font-weight:600;line-height:1.2;}
+.sl{font-family:var(--mono);font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;}
+.sg{color:var(--gn)}.sr{color:var(--rd)}.sb{color:var(--acc2)}.sa{color:var(--am)}
+.bv{display:inline-flex;align-items:center;padding:1px 6px;border-radius:3px;
+  font-size:10px;font-family:var(--mono);font-weight:600;
+  background:#1e3a1e;color:var(--gn);border:1px solid #2d5a2d;}
+.bn{display:inline-flex;align-items:center;padding:1px 6px;border-radius:3px;
+  font-size:10px;font-family:var(--mono);font-weight:600;
+  background:#111;color:var(--mu);border:1px solid var(--brd);}
+.bsub{font-family:var(--mono);font-size:9px;color:var(--mu);margin-top:2px;}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;min-width:700px;}
+thead th{padding:7px 9px;text-align:left;font-family:var(--mono);font-size:10px;
+  font-weight:500;letter-spacing:.08em;color:var(--mu);text-transform:uppercase;
+  border-bottom:1px solid var(--brd2);background:var(--sur);white-space:nowrap;
+  z-index:80;}
+thead th.rc{text-align:right;}thead th.cc{text-align:center;}
+tbody tr{border-bottom:1px solid var(--brd);transition:background .1s;}
+tbody tr:hover{background:#132035;}
+tr.rv{border-left:3px solid var(--gn);}
+tr.rf{border-left:3px solid var(--rd);}
+tr.rn{border-left:3px solid transparent;}
+td{padding:8px 9px;vertical-align:middle;white-space:nowrap;}
+.cm{min-width:155px;}
+.gt{font-family:var(--mono);font-size:11px;color:var(--mu);margin-bottom:3px;}
+.tr2{display:flex;align-items:center;gap:5px;line-height:1.75;}
+.ta{font-family:var(--mono);font-size:12px;font-weight:600;color:#e2eeff;width:30px;}
+.tn{font-size:11px;color:var(--mu);}
+.at{font-family:var(--mono);font-size:9px;color:var(--brd2);}
+.tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:3px;}
+.tag{font-size:9px;font-family:var(--mono);padding:0 4px;border-radius:2px;border:1px solid;}
+.tb{color:var(--am);border-color:#78350f;background:var(--amd);}
+.tp{color:#86efac;border-color:#166534;background:#052e16;}
+.cp{min-width:175px;max-width:200px;}
+.pl2{display:flex;align-items:center;gap:4px;
+  margin-bottom:4px;line-height:1;}
+.pl2:last-child{margin-bottom:0;}
+.pnm{font-size:12px;color:var(--tx);flex:1;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.prec{font-family:var(--mono);font-size:10px;color:var(--mu);flex-shrink:0;white-space:nowrap;}
+.fipb{font-family:var(--mono);font-size:11px;font-weight:600;
+  padding:1px 4px;border-radius:3px;flex-shrink:0;}
+.fe{color:#4ade80;background:#052e16;}
+.fg{color:#86efac;background:#052e16;}
+.fa{color:var(--mu);background:#1a1a2e;}
+.fp{color:#fca5a5;background:#450a0a;}
+.pbs{display:flex;flex-direction:column;gap:2px;min-width:100px;}
+.pr{display:flex;align-items:center;gap:5px;}
+.pl{font-family:var(--mono);font-size:9px;color:var(--mu);width:26px;}
+.bw{flex:1;height:4px;background:var(--brd2);border-radius:2px;overflow:hidden;}
+.b{height:100%;border-radius:2px;}
+.bm{background:var(--acc)}.bk{background:var(--mu);}
+.pn{font-family:var(--mono);font-size:11px;font-weight:500;
+  color:#e2eeff;width:38px;text-align:right;}
+.co{min-width:95px;}
+.opr{display:flex;flex-direction:column;gap:2px;}
+.or{display:flex;align-items:center;gap:4px;line-height:1.85;}
+.ol{font-family:var(--mono);font-size:9px;color:var(--mu);width:26px;}
+.ov{font-family:var(--mono);font-size:12px;font-weight:600;}
+.op{color:var(--gn)}.on{color:#93c5fd;}
+.onv{font-family:var(--mono);font-size:10px;color:var(--mu);}
+.ce{min-width:75px;text-align:right;}
+.en{font-family:var(--mono);font-size:13px;font-weight:600;display:block;}
+.ep{color:var(--gn)}.en2{color:var(--rd)}.eu{color:var(--mu);}
+.es{font-family:var(--mono);font-size:9px;color:var(--mu);display:block;}
+.cs{text-align:center;min-width:85px;}
+.ck{text-align:right;min-width:65px;}
+.kv{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gn);display:block;}
+.ks{font-family:var(--mono);font-size:9px;color:var(--mu);}
+.kn{font-family:var(--mono);font-size:11px;color:var(--brd2);}
+footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
+  color:var(--mu);border-top:1px solid var(--brd);line-height:1.8;}
+@media(max-width:600px){h1{font-size:12px;}.hm{display:none;}td{padding:6px 7px;}}
+</style>
+</head><body>
+
+<div class="topbar">
+<header>
+  <div class="hl"><div class="hico">⚾</div><h1>MLB VALUE DASHBOARD</h1></div>
+  <div class="hm"><span class="ld"></span>2026-05-17 · frissítve 2026-05-17 20:28 UTC · 15 mérkőzés</div>
+</header>
+<div class="legend">
+  <div class="li"><span class="bv">🎯 fogadj</span> jobb dobó (W-L + FIP) + pozitív edge</div>
+  <div class="li">⚡ bullpen &gt;200 pitch/3 nap &nbsp;·&nbsp; 🏟 hitter-barát pálya</div>
+</div>
+<div class="summary">
+  <div class="si"><span class="sv sb">15</span><span class="sl">mérkőzés</span></div>
+  <div class="si"><span class="sv sg">0</span><span class="sl">fogadás</span></div>
+  <div class="si"><span class="sv sa">9</span><span class="sl">bullpen flag</span></div>
+  <div class="si"><span class="sv sg">—</span><span class="sl">avg edge (value)</span></div>
+</div>
+</div>
+
+<div class="tw"><table><thead><tr>
+  <th>Mérkőzés</th><th>Dobó · W-L · FIP</th>
+  <th>Modell prob</th><th>Pinnacle prob</th><th>Pinnacle odds (dec.)</th>
+  <th class="rc">Edge</th><th class="cc">Szignál</th><th class="rc">Kelly tét</th>
+</tr></thead><tbody>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">19:15</div>
+        <div class="tr2"><span class="ta">MIA</span><span class="tn">Miami Marlins</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">TBR</span><span class="tn">Tampa Bay Rays</span></div>
+        <div class="tags"><span class="tb">⚡ TBR</span><span class="tb">⚡ MIA</span></div>
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Eury Pérez</span><span class="fipb fp">5.25</span></div>
+        <div class="pl2"><span class="pnm">Drew Rasmussen</span><span class="fipb fg">3.80</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">MIA</span><div class="bw"><div class="b bm" style="width:41%"></div></div><span class="pn">41.2%</span></div><div class="pr"><span class="pl">TBR</span><div class="bw"><div class="b bm" style="width:59%"></div></div><span class="pn">58.8%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">MIA</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div><div class="pr"><span class="pl">TBR</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">MIA</span><span class="ov on">—</span><span class="onv">—</span></div><div class="or"><span class="ol">TBR</span><span class="ov on">—</span><span class="onv">—</span></div></div></td>
+      <td class="ce">
+        <span class="en eu">—</span><span class="es">MIA</span>
+        <span class="en eu">—</span><span class="es">TBR</span>
+      </td>
+      <td class="cs"><span class="bn">no odds</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">20:35</div>
+        <div class="tr2"><span class="ta">PHI</span><span class="tn">Philadelphia Phillies</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">PIT</span><span class="tn">Pittsburgh Pirates</span></div>
+        <div class="tags"><span class="tb">⚡ PIT</span></div>
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Zack Wheeler</span><span class="fipb fe">2.42</span></div>
+        <div class="pl2"><span class="pnm">Paul Skenes</span><span class="fipb fe">2.70</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">PHI</span><div class="bw"><div class="b bm" style="width:60%"></div></div><span class="pn">60.3%</span></div><div class="pr"><span class="pl">PIT</span><div class="bw"><div class="b bm" style="width:40%"></div></div><span class="pn">39.7%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">PHI</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div><div class="pr"><span class="pl">PIT</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">PHI</span><span class="ov on">—</span><span class="onv">—</span></div><div class="or"><span class="ol">PIT</span><span class="ov on">—</span><span class="onv">—</span></div></div></td>
+      <td class="ce">
+        <span class="en eu">—</span><span class="es">PHI</span>
+        <span class="en eu">—</span><span class="es">PIT</span>
+      </td>
+      <td class="cs"><span class="bn">no odds</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">20:35</div>
+        <div class="tr2"><span class="ta">BOS</span><span class="tn">Boston Red Sox</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">ATL</span><span class="tn">Atlanta Braves</span></div>
+        
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Brayan Bello</span><span class="fipb fp">6.10</span></div>
+        <div class="pl2"><span class="pnm">Grant Holmes</span><span class="fipb fp">4.86</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">BOS</span><div class="bw"><div class="b bm" style="width:44%"></div></div><span class="pn">44.3%</span></div><div class="pr"><span class="pl">ATL</span><div class="bw"><div class="b bm" style="width:56%"></div></div><span class="pn">55.7%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">BOS</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div><div class="pr"><span class="pl">ATL</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">BOS</span><span class="ov on">—</span><span class="onv">—</span></div><div class="or"><span class="ol">ATL</span><span class="ov on">—</span><span class="onv">—</span></div></div></td>
+      <td class="ce">
+        <span class="en eu">—</span><span class="es">BOS</span>
+        <span class="en eu">—</span><span class="es">ATL</span>
+      </td>
+      <td class="cs"><span class="bn">no odds</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">20:35</div>
+        <div class="tr2"><span class="ta">BAL</span><span class="tn">Baltimore Orioles</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">WSN</span><span class="tn">Washington Nationals</span></div>
+        
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Brandon Young</span><span class="fipb fp">5.33</span></div>
+        <div class="pl2"><span class="pnm">Richard Lovelady</span><span class="fipb fp">6.29</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">BAL</span><div class="bw"><div class="b bm" style="width:58%"></div></div><span class="pn">57.9%</span></div><div class="pr"><span class="pl">WSN</span><div class="bw"><div class="b bm" style="width:42%"></div></div><span class="pn">42.1%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">BAL</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div><div class="pr"><span class="pl">WSN</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">BAL</span><span class="ov on">—</span><span class="onv">—</span></div><div class="or"><span class="ol">WSN</span><span class="ov on">—</span><span class="onv">—</span></div></div></td>
+      <td class="ce">
+        <span class="en eu">—</span><span class="es">BAL</span>
+        <span class="en eu">—</span><span class="es">WSN</span>
+      </td>
+      <td class="cs"><span class="bn">no odds</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">20:40</div>
+        <div class="tr2"><span class="ta">CIN</span><span class="tn">Cincinnati Reds</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">CLE</span><span class="tn">Cleveland Guardians</span></div>
+        <div class="tags"><span class="tb">⚡ CIN</span></div>
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Brady Singer</span><span class="fipb fp">6.61</span></div>
+        <div class="pl2"><span class="pnm">Gavin Williams</span><span class="fipb fg">3.80</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">CIN</span><div class="bw"><div class="b bm" style="width:33%"></div></div><span class="pn">33.1%</span></div><div class="pr"><span class="pl">CLE</span><div class="bw"><div class="b bm" style="width:67%"></div></div><span class="pn">66.9%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">CIN</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div><div class="pr"><span class="pl">CLE</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">CIN</span><span class="ov on">—</span><span class="onv">—</span></div><div class="or"><span class="ol">CLE</span><span class="ov on">—</span><span class="onv">—</span></div></div></td>
+      <td class="ce">
+        <span class="en eu">—</span><span class="es">CIN</span>
+        <span class="en eu">—</span><span class="es">CLE</span>
+      </td>
+      <td class="cs"><span class="bn">no odds</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">20:40</div>
+        <div class="tr2"><span class="ta">TOR</span><span class="tn">Toronto Blue Jays</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">DET</span><span class="tn">Detroit Tigers</span></div>
+        <div class="tags"><span class="tb">⚡ DET</span><span class="tb">⚡ TOR</span></div>
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Kevin Gausman</span><span class="fipb fe">3.13</span></div>
+        <div class="pl2"><span class="pnm">Jack Flaherty</span><span class="fipb fp">5.07</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">TOR</span><div class="bw"><div class="b bm" style="width:59%"></div></div><span class="pn">58.7%</span></div><div class="pr"><span class="pl">DET</span><div class="bw"><div class="b bm" style="width:41%"></div></div><span class="pn">41.3%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">TOR</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div><div class="pr"><span class="pl">DET</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">TOR</span><span class="ov on">—</span><span class="onv">—</span></div><div class="or"><span class="ol">DET</span><span class="ov on">—</span><span class="onv">—</span></div></div></td>
+      <td class="ce">
+        <span class="en eu">—</span><span class="es">TOR</span>
+        <span class="en eu">—</span><span class="es">DET</span>
+      </td>
+      <td class="cs"><span class="bn">no odds</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">20:40</div>
+        <div class="tr2"><span class="ta">NYY</span><span class="tn">New York Yankees</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">NYM</span><span class="tn">New York Mets</span></div>
+        <div class="tags"><span class="tb">⚡ NYM</span></div>
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Elmer Rodríguez</span><span class="fipb fa">4.36</span></div>
+        <div class="pl2"><span class="pnm">Freddy Peralta</span><span class="fipb fa">4.09</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">NYY</span><div class="bw"><div class="b bm" style="width:51%"></div></div><span class="pn">50.9%</span></div><div class="pr"><span class="pl">NYM</span><div class="bw"><div class="b bm" style="width:49%"></div></div><span class="pn">49.1%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">NYY</span><div class="bw"><div class="b bk" style="width:91%"></div></div><span class="pn">91.3%</span></div><div class="pr"><span class="pl">NYM</span><div class="bw"><div class="b bk" style="width:9%"></div></div><span class="pn">8.7%</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">NYY</span><span class="ov on">1.05</span><span class="onv">91.3%</span></div><div class="or"><span class="ol">NYM</span><span class="ov op">11.01</span><span class="onv">8.7%</span></div></div></td>
+      <td class="ce">
+        <span class="en en">-40.4%</span><span class="es">NYY</span>
+        <span class="en ep">+40.4%</span><span class="es">NYM</span>
+      </td>
+      <td class="cs"><span class="bn">—</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">21:10</div>
+        <div class="tr2"><span class="ta">CHC</span><span class="tn">Chicago Cubs</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">CHW</span><span class="tn">Chicago White Sox</span></div>
+        <div class="tags"><span class="tb">⚡ CHW</span></div>
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Colin Rea</span><span class="fipb fa">4.13</span></div>
+        <div class="pl2"><span class="pnm">Erick Fedde</span><span class="fipb fp">6.35</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">CHC</span><div class="bw"><div class="b bm" style="width:71%"></div></div><span class="pn">71.4%</span></div><div class="pr"><span class="pl">CHW</span><div class="bw"><div class="b bm" style="width:29%"></div></div><span class="pn">28.6%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">CHC</span><div class="bw"><div class="b bk" style="width:42%"></div></div><span class="pn">42.2%</span></div><div class="pr"><span class="pl">CHW</span><div class="bw"><div class="b bk" style="width:58%"></div></div><span class="pn">57.8%</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">CHC</span><span class="ov op">2.26</span><span class="onv">42.2%</span></div><div class="or"><span class="ol">CHW</span><span class="ov on">1.65</span><span class="onv">57.8%</span></div></div></td>
+      <td class="ce">
+        <span class="en ep">+29.1%</span><span class="es">CHC</span>
+        <span class="en en">-29.1%</span><span class="es">CHW</span>
+      </td>
+      <td class="cs"><span class="bn">—</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">21:10</div>
+        <div class="tr2"><span class="ta">MIL</span><span class="tn">Milwaukee Brewers</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">MIN</span><span class="tn">Minnesota Twins</span></div>
+        
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Robert Gasser</span><span class="fipb fp">6.73</span></div>
+        <div class="pl2"><span class="pnm">Bailey Ober</span><span class="fipb fa">4.34</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">MIL</span><div class="bw"><div class="b bm" style="width:53%"></div></div><span class="pn">52.9%</span></div><div class="pr"><span class="pl">MIN</span><div class="bw"><div class="b bm" style="width:47%"></div></div><span class="pn">47.1%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">MIL</span><div class="bw"><div class="b bk" style="width:25%"></div></div><span class="pn">24.7%</span></div><div class="pr"><span class="pl">MIN</span><div class="bw"><div class="b bk" style="width:75%"></div></div><span class="pn">75.3%</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">MIL</span><span class="ov op">3.87</span><span class="onv">24.7%</span></div><div class="or"><span class="ol">MIN</span><span class="ov on">1.27</span><span class="onv">75.3%</span></div></div></td>
+      <td class="ce">
+        <span class="en ep">+28.2%</span><span class="es">MIL</span>
+        <span class="en en">-28.2%</span><span class="es">MIN</span>
+      </td>
+      <td class="cs"><span class="bn">—</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">21:10</div>
+        <div class="tr2"><span class="ta">TEX</span><span class="tn">Texas Rangers</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">HOU</span><span class="tn">Houston Astros</span></div>
+        
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Nathan Eovaldi</span><span class="fipb fa">4.39</span></div>
+        <div class="pl2"><span class="pnm">Peter Lambert</span><span class="fipb fg">3.35</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">TEX</span><div class="bw"><div class="b bm" style="width:38%"></div></div><span class="pn">38.3%</span></div><div class="pr"><span class="pl">HOU</span><div class="bw"><div class="b bm" style="width:62%"></div></div><span class="pn">61.7%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">TEX</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div><div class="pr"><span class="pl">HOU</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">TEX</span><span class="ov on">—</span><span class="onv">—</span></div><div class="or"><span class="ol">HOU</span><span class="ov on">—</span><span class="onv">—</span></div></div></td>
+      <td class="ce">
+        <span class="en eu">—</span><span class="es">TEX</span>
+        <span class="en eu">—</span><span class="es">HOU</span>
+      </td>
+      <td class="cs"><span class="bn">no odds</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">21:15</div>
+        <div class="tr2"><span class="ta">KCR</span><span class="tn">Kansas City Royals</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">STL</span><span class="tn">St. Louis Cardinals</span></div>
+        
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Stephen Kolek</span><span class="fipb fa">4.15</span></div>
+        <div class="pl2"><span class="pnm">Andre Pallante</span><span class="fipb fa">4.46</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">KCR</span><div class="bw"><div class="b bm" style="width:47%"></div></div><span class="pn">47.5%</span></div><div class="pr"><span class="pl">STL</span><div class="bw"><div class="b bm" style="width:53%"></div></div><span class="pn">52.5%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">KCR</span><div class="bw"><div class="b bk" style="width:83%"></div></div><span class="pn">82.9%</span></div><div class="pr"><span class="pl">STL</span><div class="bw"><div class="b bk" style="width:17%"></div></div><span class="pn">17.1%</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">KCR</span><span class="ov on">1.16</span><span class="onv">82.9%</span></div><div class="or"><span class="ol">STL</span><span class="ov op">5.65</span><span class="onv">17.1%</span></div></div></td>
+      <td class="ce">
+        <span class="en en">-35.5%</span><span class="es">KCR</span>
+        <span class="en ep">+35.5%</span><span class="es">STL</span>
+      </td>
+      <td class="cs"><span class="bn">—</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">22:10</div>
+        <div class="tr2"><span class="ta">ARI</span><span class="tn">Arizona Diamondbacks</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">COL</span><span class="tn">Colorado Rockies</span></div>
+        <div class="tags"><span class="tb">⚡ COL</span><span class="tp">🏟 Coors Field</span></div>
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Michael Soroka</span><span class="fipb fe">3.22</span></div>
+        <div class="pl2"><span class="pnm">Michael Lorenzen</span><span class="fipb fp">4.97</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">ARI</span><div class="bw"><div class="b bm" style="width:69%"></div></div><span class="pn">69.4%</span></div><div class="pr"><span class="pl">COL</span><div class="bw"><div class="b bm" style="width:31%"></div></div><span class="pn">30.6%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">ARI</span><div class="bw"><div class="b bk" style="width:57%"></div></div><span class="pn">57.2%</span></div><div class="pr"><span class="pl">COL</span><div class="bw"><div class="b bk" style="width:43%"></div></div><span class="pn">42.8%</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">ARI</span><span class="ov on">1.71</span><span class="onv">57.2%</span></div><div class="or"><span class="ol">COL</span><span class="ov op">2.29</span><span class="onv">42.8%</span></div></div></td>
+      <td class="ce">
+        <span class="en ep">+12.2%</span><span class="es">ARI</span>
+        <span class="en en">-12.2%</span><span class="es">COL</span>
+      </td>
+      <td class="cs"><span class="bn">—</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">23:05</div>
+        <div class="tr2"><span class="ta">SFG</span><span class="tn">San Francisco Giants</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">OAK</span><span class="tn">Athletics</span></div>
+        
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Adrian Houser</span><span class="fipb fp">5.64</span></div>
+        <div class="pl2"><span class="pnm">Jeffrey Springs</span><span class="fipb fa">4.24</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">SFG</span><div class="bw"><div class="b bm" style="width:46%"></div></div><span class="pn">46.0%</span></div><div class="pr"><span class="pl">OAK</span><div class="bw"><div class="b bm" style="width:54%"></div></div><span class="pn">54.0%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">SFG</span><div class="bw"><div class="b bk" style="width:44%"></div></div><span class="pn">44.4%</span></div><div class="pr"><span class="pl">OAK</span><div class="bw"><div class="b bk" style="width:56%"></div></div><span class="pn">55.6%</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">SFG</span><span class="ov op">2.15</span><span class="onv">44.4%</span></div><div class="or"><span class="ol">OAK</span><span class="ov on">1.71</span><span class="onv">55.6%</span></div></div></td>
+      <td class="ce">
+        <span class="en ep">+1.7%</span><span class="es">SFG</span>
+        <span class="en en">-1.7%</span><span class="es">OAK</span>
+      </td>
+      <td class="cs"><span class="bn">—</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">23:07</div>
+        <div class="tr2"><span class="ta">LAD</span><span class="tn">Los Angeles Dodgers</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">LAA</span><span class="tn">Los Angeles Angels</span></div>
+        <div class="tags"><span class="tb">⚡ LAD</span></div>
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Roki Sasaki</span><span class="fipb fp">6.41</span></div>
+        <div class="pl2"><span class="pnm">Grayson Rodriguez</span><span class="fipb fa">4.14</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">LAD</span><div class="bw"><div class="b bm" style="width:56%"></div></div><span class="pn">55.6%</span></div><div class="pr"><span class="pl">LAA</span><div class="bw"><div class="b bm" style="width:44%"></div></div><span class="pn">44.4%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">LAD</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div><div class="pr"><span class="pl">LAA</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">—</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">LAD</span><span class="ov on">—</span><span class="onv">—</span></div><div class="or"><span class="ol">LAA</span><span class="ov on">—</span><span class="onv">—</span></div></div></td>
+      <td class="ce">
+        <span class="en eu">—</span><span class="es">LAD</span>
+        <span class="en eu">—</span><span class="es">LAA</span>
+      </td>
+      <td class="cs"><span class="bn">no odds</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+    <tr class="rn">
+      <td class="cm">
+        <div class="gt">02:20</div>
+        <div class="tr2"><span class="ta">SDP</span><span class="tn">San Diego Padres</span></div>
+        <div class="at">@</div>
+        <div class="tr2"><span class="ta">SEA</span><span class="tn">Seattle Mariners</span></div>
+        <div class="tags"><span class="tb">⚡ SDP</span></div>
+      </td>
+      <td class="cp">
+        <div class="pl2"><span class="pnm">Lucas Giolito</span><span class="fipb fa">—</span></div>
+        <div class="pl2"><span class="pnm">George Kirby</span><span class="fipb fe">3.29</span></div>
+      </td>
+      <td><div class="pbs"><div class="pr"><span class="pl">SDP</span><div class="bw"><div class="b bm" style="width:45%"></div></div><span class="pn">45.2%</span></div><div class="pr"><span class="pl">SEA</span><div class="bw"><div class="b bm" style="width:55%"></div></div><span class="pn">54.8%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">SDP</span><div class="bw"><div class="b bk" style="width:40%"></div></div><span class="pn">40.2%</span></div><div class="pr"><span class="pl">SEA</span><div class="bw"><div class="b bk" style="width:60%"></div></div><span class="pn">59.8%</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">SDP</span><span class="ov op">2.44</span><span class="onv">40.2%</span></div><div class="or"><span class="ol">SEA</span><span class="ov on">1.64</span><span class="onv">59.8%</span></div></div></td>
+      <td class="ce">
+        <span class="en ep">+5.0%</span><span class="es">SDP</span>
+        <span class="en en">-5.0%</span><span class="es">SEA</span>
+      </td>
+      <td class="cs"><span class="bn">—</span></td>
+      <td class="ck"><span class="kn">—</span></td>
+    </tr>
+</tbody></table></div>
+
+<footer>
+  <div>Modell: saját MLB Elo (K=4, HFA=+24, ⅓ regresszió) + FIP pitcher adj · Odds: Pinnacle no-vig · Edge: 4–10% = value / &gt;10% = kizárás</div>
+  <div style="margin-top:4px;color:#3b5a7a">Frissítve: 2026-05-17 20:28 UTC · Napi cron: 11:00 + 14:00 UTC · Elo update: tegnapi meccsek · Nem fogadási tanácsadás.</div>
+</footer>
+
+</body></html>
