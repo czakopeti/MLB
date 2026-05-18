@@ -168,7 +168,7 @@ h1{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.05em;c
   font-size:10px;font-family:var(--mono);font-weight:600;
   background:#111;color:var(--mu);border:1px solid var(--brd);}
 .bsub{font-family:var(--mono);font-size:9px;color:var(--mu);margin-top:2px;}
-.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;}
 table{width:100%;border-collapse:collapse;min-width:700px;}
 thead th{padding:7px 9px;text-align:left;font-family:var(--mono);font-size:10px;
   font-weight:500;letter-spacing:.08em;color:var(--mu);text-transform:uppercase;
@@ -232,7 +232,24 @@ td{padding:8px 9px;vertical-align:middle;white-space:nowrap;}
 .kn{font-family:var(--mono);font-size:11px;color:var(--brd2);}
 footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
   color:var(--mu);border-top:1px solid var(--brd);line-height:1.8;}
-@media(max-width:600px){h1{font-size:12px;}.hm{display:none;}td{padding:6px 7px;}}
+@media(max-width:640px){
+  h1{font-size:12px;}
+  .hm{display:none;}
+  td{padding:5px 6px;}
+  .tn{display:none;}
+  .side-h,.side-a{display:none;}
+  .pn{width:32px;font-size:10px;}
+  .en{font-size:11px;}
+  .fipb{font-size:10px;padding:1px 3px;}
+  .prec{font-size:9px;}
+  .pnm{font-size:11px;}
+  .oval{font-size:11px;}
+  .gt{font-size:10px;}
+  .ta{font-size:11px;width:26px;}
+  .summary{gap:10px;padding:6px 12px;}
+  .sv{font-size:14px;}
+  footer{font-size:9px;}
+}
 </style>"""
 
 TH = """<thead><tr>
@@ -300,9 +317,10 @@ def render(doc):
     Frissítve: {ts} UTC · Napi cron: 11:00 + 14:00 UTC · Nem fogadási tanácsadás.
   </div>
   <div style="margin-top:4px;display:flex;align-items:center;gap:8px;">
-    <span style="color:#1e3a1e;background:#0d2010;border:1px solid #2d5a2d;
-      border-radius:3px;padding:1px 7px;font-size:10px;letter-spacing:.04em;">
-      ✓ Elo — {elo_last_date} meccsek feldolgozva · {elo_games:,} mérkőzés összesen
+    <span style="color:#4ade80;background:#052e16;border:1px solid #22c55e;
+      border-radius:4px;padding:3px 10px;font-size:11px;letter-spacing:.04em;
+      font-weight:600;box-shadow:0 0 8px rgba(34,197,94,.2);">
+      ✓ Elo frissítve — {elo_last_date} &nbsp;·&nbsp; {elo_games:,} meccs feldolgozva
     </span>
   </div>
 </footer>
