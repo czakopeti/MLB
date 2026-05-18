@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-18T08:51:13.952823+00:00",
+  "generated_at": "2026-05-18T09:04:38.889778+00:00",
   "date": "2026-05-18",
   "game_count": 14,
   "games": [
@@ -22,13 +22,13 @@
         "id": 664285,
         "name": "Framber Valdez",
         "note": "",
-        "record": ""
+        "record": "2-2"
       },
       "away_pitcher": {
         "id": 677944,
         "name": "Slade Cecconi",
         "note": "",
-        "record": ""
+        "record": "2-4"
       },
       "fte_matched": true,
       "elo_home": 1501.2,
@@ -74,13 +74,13 @@
         "id": 607625,
         "name": "Seth Lugo",
         "note": "",
-        "record": ""
+        "record": "1-3"
       },
       "away_pitcher": {
         "id": 543243,
         "name": "Sonny Gray",
         "note": "",
-        "record": ""
+        "record": "4-1"
       },
       "fte_matched": true,
       "elo_home": 1490.8,
@@ -126,13 +126,13 @@
         "id": 696070,
         "name": "Kendry Rojas",
         "note": "",
-        "record": ""
+        "record": "1-0"
       },
       "away_pitcher": {
         "id": 837227,
         "name": "Tatsuya Imai",
         "note": "",
-        "record": ""
+        "record": "1-1"
       },
       "fte_matched": true,
       "elo_home": 1458.3,
@@ -178,13 +178,13 @@
         "id": 677960,
         "name": "Ryan Weathers",
         "note": "",
-        "record": ""
+        "record": "2-2"
       },
       "away_pitcher": {
         "id": 571578,
         "name": "Patrick Corbin",
         "note": "",
-        "record": ""
+        "record": "1-1"
       },
       "fte_matched": true,
       "elo_home": 1549.5,
@@ -230,13 +230,13 @@
         "id": 663556,
         "name": "Shane McClanahan",
         "note": "",
-        "record": ""
+        "record": "4-2"
       },
       "away_pitcher": {
         "id": 669432,
         "name": "Trevor Rogers",
         "note": "",
-        "record": ""
+        "record": "2-4"
       },
       "fte_matched": true,
       "elo_home": 1490.9,
@@ -253,15 +253,15 @@
       "away_fip": 4.52,
       "edge_home": 0.0072,
       "edge_away": -0.0072,
-      "signal": "none",
-      "kelly_stake": null,
+      "signal": "bet",
+      "kelly_stake": 0.0,
       "bullpen_flag_home": true,
       "bullpen_flag_away": false,
       "bullpen_pitches_home_3d": 211,
       "bullpen_pitches_away_3d": 181,
       "pitcher_adj_home": 40.3,
       "pitcher_adj_away": -9.2,
-      "bet_side": null
+      "bet_side": "home"
     },
     {
       "game_pk": 824035,
@@ -282,13 +282,13 @@
         "id": 700712,
         "name": "Walbert Ure\u00f1a",
         "note": "",
-        "record": ""
+        "record": "1-4"
       },
       "away_pitcher": {
         "id": 669372,
         "name": "J.T. Ginn",
         "note": "",
-        "record": ""
+        "record": "2-1"
       },
       "fte_matched": true,
       "elo_home": 1441.0,
@@ -334,13 +334,13 @@
         "id": 693433,
         "name": "Bryan Woo",
         "note": "",
-        "record": ""
+        "record": "3-2"
       },
       "away_pitcher": {
         "id": 702273,
         "name": "Noah Schultz",
         "note": "",
-        "record": ""
+        "record": "2-2"
       },
       "fte_matched": true,
       "elo_home": 1529.7,
@@ -357,15 +357,15 @@
       "away_fip": 4.26,
       "edge_home": 0.1247,
       "edge_away": -0.1247,
-      "signal": "none",
-      "kelly_stake": null,
+      "signal": "bet",
+      "kelly_stake": 0.03,
       "bullpen_flag_home": false,
       "bullpen_flag_away": true,
       "bullpen_pitches_home_3d": 140,
       "bullpen_pitches_away_3d": 279,
       "pitcher_adj_home": 15.5,
       "pitcher_adj_away": -2.7,
-      "bet_side": null
+      "bet_side": "home"
     },
     {
       "game_pk": 824680,
@@ -386,13 +386,13 @@
         "id": 684007,
         "name": "Shota Imanaga",
         "note": "",
-        "record": ""
+        "record": "4-3"
       },
       "away_pitcher": {
         "id": 687075,
         "name": "Brandon Sproat",
         "note": "",
-        "record": ""
+        "record": "1-2"
       },
       "fte_matched": true,
       "elo_home": 1526.6,
@@ -438,13 +438,13 @@
         "id": 676974,
         "name": "Max Meyer",
         "note": "",
-        "record": ""
+        "record": "3-0"
       },
       "away_pitcher": {
         "id": 702275,
         "name": "JR Ritchie",
         "note": "",
-        "record": ""
+        "record": "1-0"
       },
       "fte_matched": true,
       "elo_home": 1489.3,
@@ -490,13 +490,13 @@
         "id": 691725,
         "name": "Andrew Painter",
         "note": "",
-        "record": ""
+        "record": "1-4"
       },
       "away_pitcher": {
         "id": 666157,
         "name": "Nick Lodolo",
         "note": "",
-        "record": ""
+        "record": "0-1"
       },
       "fte_matched": true,
       "elo_home": 1560.4,
@@ -542,13 +542,13 @@
         "id": 663623,
         "name": "Jake Irvin",
         "note": "",
-        "record": ""
+        "record": "1-4"
       },
       "away_pitcher": {
         "id": 681035,
         "name": "Christian Scott",
         "note": "",
-        "record": ""
+        "record": "0-0"
       },
       "fte_matched": true,
       "elo_home": 1448.5,
@@ -558,13 +558,13 @@
       "model_prob_home": 0.4193,
       "model_prob_away": 0.5807,
       "pinnacle_home_odds": 124,
-      "pinnacle_away_odds": -138,
-      "no_vig_prob_home": 0.435,
-      "no_vig_prob_away": 0.565,
+      "pinnacle_away_odds": -137,
+      "no_vig_prob_home": 0.4358,
+      "no_vig_prob_away": 0.5642,
       "home_fip": 4.7,
       "away_fip": 4.03,
-      "edge_home": -0.0157,
-      "edge_away": 0.0157,
+      "edge_home": -0.0165,
+      "edge_away": 0.0165,
       "signal": "none",
       "kelly_stake": null,
       "bullpen_flag_home": true,
@@ -594,13 +594,13 @@
         "id": 668678,
         "name": "Zac Gallen",
         "note": "",
-        "record": ""
+        "record": "1-4"
       },
       "away_pitcher": {
         "id": 592662,
         "name": "Robbie Ray",
         "note": "",
-        "record": ""
+        "record": "3-5"
       },
       "fte_matched": true,
       "elo_home": 1505.3,
@@ -646,13 +646,13 @@
         "id": 500779,
         "name": "Jose Quintana",
         "note": "",
-        "record": ""
+        "record": "1-2"
       },
       "away_pitcher": {
         "id": 669022,
         "name": "MacKenzie Gore",
         "note": "",
-        "record": ""
+        "record": "3-3"
       },
       "fte_matched": true,
       "elo_home": 1382.5,
@@ -669,15 +669,15 @@
       "away_fip": 4.0,
       "edge_home": -0.0948,
       "edge_away": 0.0948,
-      "signal": "none",
-      "kelly_stake": null,
+      "signal": "bet",
+      "kelly_stake": 0.03,
       "bullpen_flag_home": true,
       "bullpen_flag_away": false,
       "bullpen_pitches_home_3d": 240,
       "bullpen_pitches_away_3d": 66,
       "pitcher_adj_home": -36.7,
       "pitcher_adj_away": 3.8,
-      "bet_side": null
+      "bet_side": "away"
     },
     {
       "game_pk": 823301,
@@ -698,13 +698,13 @@
         "id": 650633,
         "name": "Michael King",
         "note": "",
-        "record": ""
+        "record": "3-2"
       },
       "away_pitcher": {
         "id": 808967,
         "name": "Yoshinobu Yamamoto",
         "note": "",
-        "record": ""
+        "record": "3-3"
       },
       "fte_matched": true,
       "elo_home": 1541.6,
@@ -721,15 +721,15 @@
       "away_fip": 3.97,
       "edge_home": 0.1039,
       "edge_away": -0.1039,
-      "signal": "none",
-      "kelly_stake": null,
+      "signal": "bet",
+      "kelly_stake": 0.03,
       "bullpen_flag_home": false,
       "bullpen_flag_away": false,
       "bullpen_pitches_home_3d": 186,
       "bullpen_pitches_away_3d": 191,
       "pitcher_adj_home": 10.5,
       "pitcher_adj_away": 4.5,
-      "bet_side": null
+      "bet_side": "home"
     }
   ],
   "elo_last_date": "2026-05-17",

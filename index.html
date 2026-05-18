@@ -58,6 +58,8 @@ td{padding:8px 9px;vertical-align:middle;white-space:nowrap;}
 .tr2{display:flex;align-items:center;gap:5px;line-height:1.75;}
 .ta{font-family:var(--mono);font-size:12px;font-weight:600;color:#e2eeff;width:30px;}
 .tn{font-size:11px;color:var(--mu);}
+.side-h{font-family:var(--mono);font-size:9px;color:#4ade80;background:#052e16;border:1px solid #166534;border-radius:2px;padding:0 3px;margin-left:4px;flex-shrink:0;}
+.side-a{font-family:var(--mono);font-size:9px;color:var(--mu);background:transparent;border:1px solid var(--brd2);border-radius:2px;padding:0 3px;margin-left:4px;flex-shrink:0;}
 .at{font-family:var(--mono);font-size:9px;color:var(--brd2);}
 .tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:3px;}
 .tag{font-size:9px;font-family:var(--mono);padding:0 4px;border-radius:2px;border:1px solid;}
@@ -109,7 +111,7 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
 <div class="topbar">
 <header>
   <div class="hl"><div class="hico">⚾</div><h1>MLB VALUE DASHBOARD</h1></div>
-  <div class="hm"><span class="ld"></span>2026-05-18 · frissítve 2026-05-18 08:51 UTC · 14 mérkőzés</div>
+  <div class="hm"><span class="ld"></span>2026-05-18 · frissítve 2026-05-18 09:04 UTC · 14 mérkőzés</div>
 </header>
 <div class="legend">
   <div class="li"><span class="bv">🎯 fogadj</span> jobb dobó (W-L + FIP) + pozitív edge</div>
@@ -117,9 +119,9 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
 </div>
 <div class="summary">
   <div class="si"><span class="sv sb">14</span><span class="sl">mérkőzés</span></div>
-  <div class="si"><span class="sv sg">0</span><span class="sl">fogadás</span></div>
+  <div class="si"><span class="sv sg">4</span><span class="sl">fogadás</span></div>
   <div class="si"><span class="sv sa">8</span><span class="sl">bullpen flag</span></div>
-  <div class="si"><span class="sv sg">—</span><span class="sl">avg edge (value)</span></div>
+  <div class="si"><span class="sv sg">8.3%</span><span class="sl">avg edge (value)</span></div>
 </div>
 </div>
 
@@ -130,15 +132,15 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
 </tr></thead><tbody>
     <tr class="rn">
       <td class="cm">
-        <div class="gt">01:40</div>
-        <div class="tr2"><span class="ta">CLE</span><span class="tn">Cleveland Guardians</span></div>
+        <div class="gt">00:40</div>
+        <div class="tr2"><span class="ta">CLE</span><span class="tn">Cleveland Guardians</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">DET</span><span class="tn">Detroit Tigers</span></div>
+        <div class="tr2"><span class="ta">DET</span><span class="tn">Detroit Tigers</span><span class="side-h">home</span></div>
         <div class="tags"><span class="tb">⚡ DET</span></div>
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Slade Cecconi</span><span class="fipb fp">5.11</span></div>
-        <div class="pl2"><span class="pnm">Framber Valdez</span><span class="fipb fa">4.09</span></div>
+        <div class="pl2"><span class="pnm">Slade Cecconi</span><span class="prec">2-4</span><span class="fipb fp">5.11</span></div>
+        <div class="pl2"><span class="pnm">Framber Valdez</span><span class="prec">2-2</span><span class="fipb fa">4.09</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">CLE</span><div class="bw"><div class="b bm" style="width:47%"></div></div><span class="pn">46.7%</span></div><div class="pr"><span class="pl">DET</span><div class="bw"><div class="b bm" style="width:53%"></div></div><span class="pn">53.3%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">CLE</span><div class="bw"><div class="b bk" style="width:43%"></div></div><span class="pn">42.9%</span></div><div class="pr"><span class="pl">DET</span><div class="bw"><div class="b bk" style="width:57%"></div></div><span class="pn">57.1%</span></div></div></td>
@@ -150,17 +152,17 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
       <td class="cs"><span class="bn">—</span></td>
       <td class="ck"><span class="kn">—</span></td>
     </tr>
-    <tr class="rn">
+    <tr class="rv">
       <td class="cm">
-        <div class="gt">01:40</div>
-        <div class="tr2"><span class="ta">BAL</span><span class="tn">Baltimore Orioles</span></div>
+        <div class="gt">00:40</div>
+        <div class="tr2"><span class="ta">BAL</span><span class="tn">Baltimore Orioles</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">TBR</span><span class="tn">Tampa Bay Rays</span></div>
+        <div class="tr2"><span class="ta">TBR</span><span class="tn">Tampa Bay Rays</span><span class="side-h">home</span></div>
         <div class="tags"><span class="tb">⚡ TBR</span></div>
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Trevor Rogers</span><span class="fipb fp">4.52</span></div>
-        <div class="pl2"><span class="pnm">Shane McClanahan</span><span class="fipb fe">2.54</span></div>
+        <div class="pl2"><span class="pnm">Trevor Rogers</span><span class="prec">2-4</span><span class="fipb fp">4.52</span></div>
+        <div class="pl2"><span class="pnm">Shane McClanahan</span><span class="prec">4-2</span><span class="fipb fe">2.54</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">BAL</span><div class="bw"><div class="b bm" style="width:41%"></div></div><span class="pn">41.3%</span></div><div class="pr"><span class="pl">TBR</span><div class="bw"><div class="b bm" style="width:59%"></div></div><span class="pn">58.7%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">BAL</span><div class="bw"><div class="b bk" style="width:42%"></div></div><span class="pn">42.1%</span></div><div class="pr"><span class="pl">TBR</span><div class="bw"><div class="b bk" style="width:58%"></div></div><span class="pn">57.9%</span></div></div></td>
@@ -169,20 +171,20 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
         <span class="en en">-0.7%</span><span class="es">BAL</span>
         <span class="en ep">+0.7%</span><span class="es">TBR</span>
       </td>
-      <td class="cs"><span class="bn">—</span></td>
+      <td class="cs"><span class="bv">🎯 fogadj</span><br><span class="bsub">TBR ML</span></td>
       <td class="ck"><span class="kn">—</span></td>
     </tr>
     <tr class="rn">
       <td class="cm">
-        <div class="gt">01:40</div>
-        <div class="tr2"><span class="ta">ATL</span><span class="tn">Atlanta Braves</span></div>
+        <div class="gt">00:40</div>
+        <div class="tr2"><span class="ta">ATL</span><span class="tn">Atlanta Braves</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">MIA</span><span class="tn">Miami Marlins</span></div>
+        <div class="tr2"><span class="ta">MIA</span><span class="tn">Miami Marlins</span><span class="side-h">home</span></div>
         
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">JR Ritchie</span><span class="fipb fp">4.87</span></div>
-        <div class="pl2"><span class="pnm">Max Meyer</span><span class="fipb fe">3.23</span></div>
+        <div class="pl2"><span class="pnm">JR Ritchie</span><span class="prec">1-0</span><span class="fipb fp">4.87</span></div>
+        <div class="pl2"><span class="pnm">Max Meyer</span><span class="prec">3-0</span><span class="fipb fe">3.23</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">ATL</span><div class="bw"><div class="b bm" style="width:44%"></div></div><span class="pn">43.9%</span></div><div class="pr"><span class="pl">MIA</span><div class="bw"><div class="b bm" style="width:56%"></div></div><span class="pn">56.1%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">ATL</span><div class="bw"><div class="b bk" style="width:49%"></div></div><span class="pn">49.3%</span></div><div class="pr"><span class="pl">MIA</span><div class="bw"><div class="b bk" style="width:51%"></div></div><span class="pn">50.7%</span></div></div></td>
@@ -196,15 +198,15 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
     </tr>
     <tr class="rn">
       <td class="cm">
-        <div class="gt">01:40</div>
-        <div class="tr2"><span class="ta">CIN</span><span class="tn">Cincinnati Reds</span></div>
+        <div class="gt">00:40</div>
+        <div class="tr2"><span class="ta">CIN</span><span class="tn">Cincinnati Reds</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">PHI</span><span class="tn">Philadelphia Phillies</span></div>
+        <div class="tr2"><span class="ta">PHI</span><span class="tn">Philadelphia Phillies</span><span class="side-h">home</span></div>
         <div class="tags"><span class="tb">⚡ CIN</span></div>
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Nick Lodolo</span><span class="fipb fp">4.53</span></div>
-        <div class="pl2"><span class="pnm">Andrew Painter</span><span class="fipb fp">4.88</span></div>
+        <div class="pl2"><span class="pnm">Nick Lodolo</span><span class="prec">0-1</span><span class="fipb fp">4.53</span></div>
+        <div class="pl2"><span class="pnm">Andrew Painter</span><span class="prec">1-4</span><span class="fipb fp">4.88</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">CIN</span><div class="bw"><div class="b bm" style="width:39%"></div></div><span class="pn">39.2%</span></div><div class="pr"><span class="pl">PHI</span><div class="bw"><div class="b bm" style="width:61%"></div></div><span class="pn">60.8%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">CIN</span><div class="bw"><div class="b bk" style="width:47%"></div></div><span class="pn">46.9%</span></div><div class="pr"><span class="pl">PHI</span><div class="bw"><div class="b bk" style="width:53%"></div></div><span class="pn">53.1%</span></div></div></td>
@@ -218,37 +220,37 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
     </tr>
     <tr class="rn">
       <td class="cm">
-        <div class="gt">01:45</div>
-        <div class="tr2"><span class="ta">NYM</span><span class="tn">New York Mets</span></div>
+        <div class="gt">00:45</div>
+        <div class="tr2"><span class="ta">NYM</span><span class="tn">New York Mets</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">WSN</span><span class="tn">Washington Nationals</span></div>
+        <div class="tr2"><span class="ta">WSN</span><span class="tn">Washington Nationals</span><span class="side-h">home</span></div>
         <div class="tags"><span class="tb">⚡ WSN</span><span class="tb">⚡ NYM</span></div>
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Christian Scott</span><span class="fipb fa">4.03</span></div>
-        <div class="pl2"><span class="pnm">Jake Irvin</span><span class="fipb fp">4.70</span></div>
+        <div class="pl2"><span class="pnm">Christian Scott</span><span class="prec">0-0</span><span class="fipb fa">4.03</span></div>
+        <div class="pl2"><span class="pnm">Jake Irvin</span><span class="prec">1-4</span><span class="fipb fp">4.70</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">NYM</span><div class="bw"><div class="b bm" style="width:58%"></div></div><span class="pn">58.1%</span></div><div class="pr"><span class="pl">WSN</span><div class="bw"><div class="b bm" style="width:42%"></div></div><span class="pn">41.9%</span></div></div></td>
-      <td><div class="pbs"><div class="pr"><span class="pl">NYM</span><div class="bw"><div class="b bk" style="width:56%"></div></div><span class="pn">56.5%</span></div><div class="pr"><span class="pl">WSN</span><div class="bw"><div class="b bk" style="width:44%"></div></div><span class="pn">43.5%</span></div></div></td>
-      <td class="co"><div class="opr"><div class="or"><span class="ol">NYM</span><span class="ov on">1.72</span><span class="onv">56.5%</span></div><div class="or"><span class="ol">WSN</span><span class="ov op">2.24</span><span class="onv">43.5%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">NYM</span><div class="bw"><div class="b bk" style="width:56%"></div></div><span class="pn">56.4%</span></div><div class="pr"><span class="pl">WSN</span><div class="bw"><div class="b bk" style="width:44%"></div></div><span class="pn">43.6%</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">NYM</span><span class="ov on">1.73</span><span class="onv">56.4%</span></div><div class="or"><span class="ol">WSN</span><span class="ov op">2.24</span><span class="onv">43.6%</span></div></div></td>
       <td class="ce">
-        <span class="en ep">+1.6%</span><span class="es">NYM</span>
-        <span class="en en">-1.6%</span><span class="es">WSN</span>
+        <span class="en ep">+1.7%</span><span class="es">NYM</span>
+        <span class="en en">-1.7%</span><span class="es">WSN</span>
       </td>
       <td class="cs"><span class="bn">—</span></td>
       <td class="ck"><span class="kn">—</span></td>
     </tr>
     <tr class="rn">
       <td class="cm">
-        <div class="gt">02:05</div>
-        <div class="tr2"><span class="ta">TOR</span><span class="tn">Toronto Blue Jays</span></div>
+        <div class="gt">01:05</div>
+        <div class="tr2"><span class="ta">TOR</span><span class="tn">Toronto Blue Jays</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">NYY</span><span class="tn">New York Yankees</span></div>
+        <div class="tr2"><span class="ta">NYY</span><span class="tn">New York Yankees</span><span class="side-h">home</span></div>
         <div class="tags"><span class="tb">⚡ NYY</span><span class="tb">⚡ TOR</span></div>
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Patrick Corbin</span><span class="fipb fa">4.23</span></div>
-        <div class="pl2"><span class="pnm">Ryan Weathers</span><span class="fipb fg">3.35</span></div>
+        <div class="pl2"><span class="pnm">Patrick Corbin</span><span class="prec">1-1</span><span class="fipb fa">4.23</span></div>
+        <div class="pl2"><span class="pnm">Ryan Weathers</span><span class="prec">2-2</span><span class="fipb fg">3.35</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">TOR</span><div class="bw"><div class="b bm" style="width:42%"></div></div><span class="pn">41.8%</span></div><div class="pr"><span class="pl">NYY</span><div class="bw"><div class="b bm" style="width:58%"></div></div><span class="pn">58.2%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">TOR</span><div class="bw"><div class="b bk" style="width:35%"></div></div><span class="pn">35.4%</span></div><div class="pr"><span class="pl">NYY</span><div class="bw"><div class="b bk" style="width:65%"></div></div><span class="pn">64.6%</span></div></div></td>
@@ -262,15 +264,15 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
     </tr>
     <tr class="rn">
       <td class="cm">
-        <div class="gt">02:40</div>
-        <div class="tr2"><span class="ta">BOS</span><span class="tn">Boston Red Sox</span></div>
+        <div class="gt">01:40</div>
+        <div class="tr2"><span class="ta">BOS</span><span class="tn">Boston Red Sox</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">KCR</span><span class="tn">Kansas City Royals</span></div>
+        <div class="tr2"><span class="ta">KCR</span><span class="tn">Kansas City Royals</span><span class="side-h">home</span></div>
         
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Sonny Gray</span><span class="fipb fa">4.24</span></div>
-        <div class="pl2"><span class="pnm">Seth Lugo</span><span class="fipb fe">2.73</span></div>
+        <div class="pl2"><span class="pnm">Sonny Gray</span><span class="prec">4-1</span><span class="fipb fa">4.24</span></div>
+        <div class="pl2"><span class="pnm">Seth Lugo</span><span class="prec">1-3</span><span class="fipb fe">2.73</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">BOS</span><div class="bw"><div class="b bm" style="width:46%"></div></div><span class="pn">46.3%</span></div><div class="pr"><span class="pl">KCR</span><div class="bw"><div class="b bm" style="width:54%"></div></div><span class="pn">53.7%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">BOS</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">50.0%</span></div><div class="pr"><span class="pl">KCR</span><div class="bw"><div class="b bk" style="width:50%"></div></div><span class="pn">50.0%</span></div></div></td>
@@ -284,15 +286,15 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
     </tr>
     <tr class="rn">
       <td class="cm">
-        <div class="gt">02:40</div>
-        <div class="tr2"><span class="ta">HOU</span><span class="tn">Houston Astros</span></div>
+        <div class="gt">01:40</div>
+        <div class="tr2"><span class="ta">HOU</span><span class="tn">Houston Astros</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">MIN</span><span class="tn">Minnesota Twins</span></div>
+        <div class="tr2"><span class="ta">MIN</span><span class="tn">Minnesota Twins</span><span class="side-h">home</span></div>
         
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Tatsuya Imai</span><span class="fipb fp">4.76</span></div>
-        <div class="pl2"><span class="pnm">Kendry Rojas</span><span class="fipb fa">4.16</span></div>
+        <div class="pl2"><span class="pnm">Tatsuya Imai</span><span class="prec">1-1</span><span class="fipb fp">4.76</span></div>
+        <div class="pl2"><span class="pnm">Kendry Rojas</span><span class="prec">1-0</span><span class="fipb fa">4.16</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">HOU</span><div class="bw"><div class="b bm" style="width:54%"></div></div><span class="pn">54.0%</span></div><div class="pr"><span class="pl">MIN</span><div class="bw"><div class="b bm" style="width:46%"></div></div><span class="pn">46.0%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">HOU</span><div class="bw"><div class="b bk" style="width:48%"></div></div><span class="pn">47.9%</span></div><div class="pr"><span class="pl">MIN</span><div class="bw"><div class="b bk" style="width:52%"></div></div><span class="pn">52.1%</span></div></div></td>
@@ -306,15 +308,15 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
     </tr>
     <tr class="rn">
       <td class="cm">
-        <div class="gt">02:40</div>
-        <div class="tr2"><span class="ta">MIL</span><span class="tn">Milwaukee Brewers</span></div>
+        <div class="gt">01:40</div>
+        <div class="tr2"><span class="ta">MIL</span><span class="tn">Milwaukee Brewers</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">CHC</span><span class="tn">Chicago Cubs</span></div>
+        <div class="tr2"><span class="ta">CHC</span><span class="tn">Chicago Cubs</span><span class="side-h">home</span></div>
         
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Brandon Sproat</span><span class="fipb fp">5.79</span></div>
-        <div class="pl2"><span class="pnm">Shota Imanaga</span><span class="fipb fe">2.89</span></div>
+        <div class="pl2"><span class="pnm">Brandon Sproat</span><span class="prec">1-2</span><span class="fipb fp">5.79</span></div>
+        <div class="pl2"><span class="pnm">Shota Imanaga</span><span class="prec">4-3</span><span class="fipb fe">2.89</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">MIL</span><div class="bw"><div class="b bm" style="width:41%"></div></div><span class="pn">41.3%</span></div><div class="pr"><span class="pl">CHC</span><div class="bw"><div class="b bm" style="width:59%"></div></div><span class="pn">58.7%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">MIL</span><div class="bw"><div class="b bk" style="width:41%"></div></div><span class="pn">40.8%</span></div><div class="pr"><span class="pl">CHC</span><div class="bw"><div class="b bk" style="width:59%"></div></div><span class="pn">59.2%</span></div></div></td>
@@ -326,17 +328,17 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
       <td class="cs"><span class="bn">—</span></td>
       <td class="ck"><span class="kn">—</span></td>
     </tr>
-    <tr class="rn">
+    <tr class="rv">
       <td class="cm">
-        <div class="gt">03:40</div>
-        <div class="tr2"><span class="ta">TEX</span><span class="tn">Texas Rangers</span></div>
+        <div class="gt">02:40</div>
+        <div class="tr2"><span class="ta">TEX</span><span class="tn">Texas Rangers</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">COL</span><span class="tn">Colorado Rockies</span></div>
+        <div class="tr2"><span class="ta">COL</span><span class="tn">Colorado Rockies</span><span class="side-h">home</span></div>
         <div class="tags"><span class="tb">⚡ COL</span><span class="tp">🏟 Coors Field</span></div>
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">MacKenzie Gore</span><span class="fipb fa">4.00</span></div>
-        <div class="pl2"><span class="pnm">Jose Quintana</span><span class="fipb fp">5.62</span></div>
+        <div class="pl2"><span class="pnm">MacKenzie Gore</span><span class="prec">3-3</span><span class="fipb fa">4.00</span></div>
+        <div class="pl2"><span class="pnm">Jose Quintana</span><span class="prec">1-2</span><span class="fipb fp">5.62</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">TEX</span><div class="bw"><div class="b bm" style="width:67%"></div></div><span class="pn">67.4%</span></div><div class="pr"><span class="pl">COL</span><div class="bw"><div class="b bm" style="width:33%"></div></div><span class="pn">32.6%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">TEX</span><div class="bw"><div class="b bk" style="width:58%"></div></div><span class="pn">57.9%</span></div><div class="pr"><span class="pl">COL</span><div class="bw"><div class="b bk" style="width:42%"></div></div><span class="pn">42.1%</span></div></div></td>
@@ -345,20 +347,20 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
         <span class="en ep">+9.5%</span><span class="es">TEX</span>
         <span class="en en">-9.5%</span><span class="es">COL</span>
       </td>
-      <td class="cs"><span class="bn">—</span></td>
+      <td class="cs"><span class="bv">🎯 fogadj</span><br><span class="bsub">TEX ML</span></td>
       <td class="ck"><span class="kn">—</span></td>
     </tr>
     <tr class="rn">
       <td class="cm">
-        <div class="gt">04:38</div>
-        <div class="tr2"><span class="ta">OAK</span><span class="tn">Athletics</span></div>
+        <div class="gt">03:38</div>
+        <div class="tr2"><span class="ta">OAK</span><span class="tn">Athletics</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">LAA</span><span class="tn">Los Angeles Angels</span></div>
+        <div class="tr2"><span class="ta">LAA</span><span class="tn">Los Angeles Angels</span><span class="side-h">home</span></div>
         <div class="tags"><span class="tb">⚡ LAA</span></div>
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">J.T. Ginn</span><span class="fipb fa">4.26</span></div>
-        <div class="pl2"><span class="pnm">Walbert Ureña</span><span class="fipb fa">4.11</span></div>
+        <div class="pl2"><span class="pnm">J.T. Ginn</span><span class="prec">2-1</span><span class="fipb fa">4.26</span></div>
+        <div class="pl2"><span class="pnm">Walbert Ureña</span><span class="prec">1-4</span><span class="fipb fa">4.11</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">OAK</span><div class="bw"><div class="b bm" style="width:50%"></div></div><span class="pn">49.5%</span></div><div class="pr"><span class="pl">LAA</span><div class="bw"><div class="b bm" style="width:50%"></div></div><span class="pn">50.5%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">OAK</span><div class="bw"><div class="b bk" style="width:54%"></div></div><span class="pn">54.3%</span></div><div class="pr"><span class="pl">LAA</span><div class="bw"><div class="b bk" style="width:46%"></div></div><span class="pn">45.7%</span></div></div></td>
@@ -370,17 +372,17 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
       <td class="cs"><span class="bn">—</span></td>
       <td class="ck"><span class="kn">—</span></td>
     </tr>
-    <tr class="rn">
+    <tr class="rv">
       <td class="cm">
-        <div class="gt">04:40</div>
-        <div class="tr2"><span class="ta">CHW</span><span class="tn">Chicago White Sox</span></div>
+        <div class="gt">03:40</div>
+        <div class="tr2"><span class="ta">CHW</span><span class="tn">Chicago White Sox</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">SEA</span><span class="tn">Seattle Mariners</span></div>
+        <div class="tr2"><span class="ta">SEA</span><span class="tn">Seattle Mariners</span><span class="side-h">home</span></div>
         <div class="tags"><span class="tb">⚡ CHW</span></div>
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Noah Schultz</span><span class="fipb fa">4.26</span></div>
-        <div class="pl2"><span class="pnm">Bryan Woo</span><span class="fipb fg">3.53</span></div>
+        <div class="pl2"><span class="pnm">Noah Schultz</span><span class="prec">2-2</span><span class="fipb fa">4.26</span></div>
+        <div class="pl2"><span class="pnm">Bryan Woo</span><span class="prec">3-2</span><span class="fipb fg">3.53</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">CHW</span><div class="bw"><div class="b bm" style="width:27%"></div></div><span class="pn">27.0%</span></div><div class="pr"><span class="pl">SEA</span><div class="bw"><div class="b bm" style="width:73%"></div></div><span class="pn">73.0%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">CHW</span><div class="bw"><div class="b bk" style="width:39%"></div></div><span class="pn">39.5%</span></div><div class="pr"><span class="pl">SEA</span><div class="bw"><div class="b bk" style="width:61%"></div></div><span class="pn">60.5%</span></div></div></td>
@@ -389,20 +391,20 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
         <span class="en en">-12.5%</span><span class="es">CHW</span>
         <span class="en ep">+12.5%</span><span class="es">SEA</span>
       </td>
-      <td class="cs"><span class="bn">—</span></td>
+      <td class="cs"><span class="bv">🎯 fogadj</span><br><span class="bsub">SEA ML</span></td>
       <td class="ck"><span class="kn">—</span></td>
     </tr>
     <tr class="rn">
       <td class="cm">
-        <div class="gt">04:40</div>
-        <div class="tr2"><span class="ta">SFG</span><span class="tn">San Francisco Giants</span></div>
+        <div class="gt">03:40</div>
+        <div class="tr2"><span class="ta">SFG</span><span class="tn">San Francisco Giants</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">ARI</span><span class="tn">Arizona Diamondbacks</span></div>
+        <div class="tr2"><span class="ta">ARI</span><span class="tn">Arizona Diamondbacks</span><span class="side-h">home</span></div>
         
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Robbie Ray</span><span class="fipb fp">4.98</span></div>
-        <div class="pl2"><span class="pnm">Zac Gallen</span><span class="fipb fp">4.73</span></div>
+        <div class="pl2"><span class="pnm">Robbie Ray</span><span class="prec">3-5</span><span class="fipb fp">4.98</span></div>
+        <div class="pl2"><span class="pnm">Zac Gallen</span><span class="prec">1-4</span><span class="fipb fp">4.73</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">SFG</span><div class="bw"><div class="b bm" style="width:44%"></div></div><span class="pn">44.4%</span></div><div class="pr"><span class="pl">ARI</span><div class="bw"><div class="b bm" style="width:56%"></div></div><span class="pn">55.6%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">SFG</span><div class="bw"><div class="b bk" style="width:44%"></div></div><span class="pn">44.0%</span></div><div class="pr"><span class="pl">ARI</span><div class="bw"><div class="b bk" style="width:56%"></div></div><span class="pn">56.0%</span></div></div></td>
@@ -414,17 +416,17 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
       <td class="cs"><span class="bn">—</span></td>
       <td class="ck"><span class="kn">—</span></td>
     </tr>
-    <tr class="rn">
+    <tr class="rv">
       <td class="cm">
-        <div class="gt">04:40</div>
-        <div class="tr2"><span class="ta">LAD</span><span class="tn">Los Angeles Dodgers</span></div>
+        <div class="gt">03:40</div>
+        <div class="tr2"><span class="ta">LAD</span><span class="tn">Los Angeles Dodgers</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">SDP</span><span class="tn">San Diego Padres</span></div>
+        <div class="tr2"><span class="ta">SDP</span><span class="tn">San Diego Padres</span><span class="side-h">home</span></div>
         
       </td>
       <td class="cp">
-        <div class="pl2"><span class="pnm">Yoshinobu Yamamoto</span><span class="fipb fa">3.97</span></div>
-        <div class="pl2"><span class="pnm">Michael King</span><span class="fipb fg">3.73</span></div>
+        <div class="pl2"><span class="pnm">Yoshinobu Yamamoto</span><span class="prec">3-3</span><span class="fipb fa">3.97</span></div>
+        <div class="pl2"><span class="pnm">Michael King</span><span class="prec">3-2</span><span class="fipb fg">3.73</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">LAD</span><div class="bw"><div class="b bm" style="width:48%"></div></div><span class="pn">48.4%</span></div><div class="pr"><span class="pl">SDP</span><div class="bw"><div class="b bm" style="width:52%"></div></div><span class="pn">51.5%</span></div></div></td>
       <td><div class="pbs"><div class="pr"><span class="pl">LAD</span><div class="bw"><div class="b bk" style="width:59%"></div></div><span class="pn">58.8%</span></div><div class="pr"><span class="pl">SDP</span><div class="bw"><div class="b bk" style="width:41%"></div></div><span class="pn">41.2%</span></div></div></td>
@@ -433,7 +435,7 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
         <span class="en en">-10.4%</span><span class="es">LAD</span>
         <span class="en ep">+10.4%</span><span class="es">SDP</span>
       </td>
-      <td class="cs"><span class="bn">—</span></td>
+      <td class="cs"><span class="bv">🎯 fogadj</span><br><span class="bsub">SDP ML</span></td>
       <td class="ck"><span class="kn">—</span></td>
     </tr>
 </tbody></table></div>
@@ -441,7 +443,7 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
 <footer>
   <div>Modell: saját MLB Elo (K=4, HFA=+24, ⅓ regresszió) + FIP pitcher adj · Odds: Pinnacle no-vig · Edge: 4–10% = value / &gt;10% = kizárás</div>
   <div style="margin-top:4px;color:#3b5a7a">
-    Frissítve: 2026-05-18 08:51 UTC · Napi cron: 11:00 + 14:00 UTC · Nem fogadási tanácsadás.
+    Frissítve: 2026-05-18 09:04 UTC · Napi cron: 11:00 + 14:00 UTC · Nem fogadási tanácsadás.
   </div>
   <div style="margin-top:4px;display:flex;align-items:center;gap:8px;">
     <span style="color:#1e3a1e;background:#0d2010;border:1px solid #2d5a2d;
