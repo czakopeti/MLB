@@ -241,7 +241,9 @@ TH = """<thead><tr>
 
 
 def render(doc):
-    games    = sorted(doc["games"], key=lambda g: g.get("game_date",""))
+    games         = sorted(doc["games"], key=lambda g: g.get("game_date",""))
+    elo_last_date = doc.get("elo_last_date", "—")
+    elo_games     = doc.get("elo_games_processed", 0)
     ts       = doc.get("generated_at","")[:16].replace("T"," ")
     date_str = doc.get("date","")
     n        = len(games)
@@ -292,7 +294,15 @@ def render(doc):
 
 <footer>
   <div>Modell: saját MLB Elo (K=4, HFA=+24, ⅓ regresszió) + FIP pitcher adj · Odds: Pinnacle no-vig · Edge: 4–10% = value / &gt;10% = kizárás</div>
-  <div style="margin-top:4px;color:#3b5a7a">Frissítve: {ts} UTC · Napi cron: 11:00 + 14:00 UTC · Elo update: tegnapi meccsek · Nem fogadási tanácsadás.</div>
+  <div style="margin-top:4px;color:#3b5a7a">
+    Frissítve: {ts} UTC · Napi cron: 11:00 + 14:00 UTC · Nem fogadási tanácsadás.
+  </div>
+  <div style="margin-top:4px;display:flex;align-items:center;gap:8px;">
+    <span style="color:#1e3a1e;background:#0d2010;border:1px solid #2d5a2d;
+      border-radius:3px;padding:1px 7px;font-size:10px;letter-spacing:.04em;">
+      ✓ Elo — {elo_last_date} meccsek feldolgozva · {elo_games:,} mérkőzés összesen
+    </span>
+  </div>
 </footer>
 
 </body></html>"""

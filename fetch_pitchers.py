@@ -27,7 +27,7 @@ import requests
 
 DATA_DIR    = Path("data")
 FIP_FILE    = DATA_DIR / "pitchers_fip.json"
-CACHE_DAYS  = 7
+CACHE_DAYS  = 1   # napi frissítés — W-L és FIP mindig friss
 
 MLB_API     = "https://statsapi.mlb.com/api/v1"
 C_FIP       = 3.15   # FIP konstans (liga ERA - ligaszintű FIP-numerátor/IP)
@@ -249,6 +249,13 @@ def is_stale() -> bool:
     ts  = doc.get("generated_at", "")
     if not ts:
         return True
+    # Ha nincs record mező → régi cache formátum, újrageneráljuk
+    pitchers = doc.get("pitchers", {})
+    if pitchers:
+        sample = next(iter(pitchers.values()))
+        if "record" not in sample:
+            log.info("Cache hiányos (nincs record mező) — újragenerálás")
+            return True
     age = (datetime.now(timezone.utc) - datetime.fromisoformat(ts)).days
     return age >= CACHE_DAYS
 

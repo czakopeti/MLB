@@ -81,6 +81,14 @@ def main():
             home_fip=h_fip, away_fip=a_fip,
             state=elo_state,
         )
+        # W-L rekord fuzzy lookup a pitcher stats cache-ből
+        h_rec = fp.lookup_record(h_name, record_data)
+        a_rec = fp.lookup_record(a_name, record_data)
+        if h_rec:
+            game["home_pitcher"]["record"] = h_rec
+        if a_rec:
+            game["away_pitcher"]["record"] = a_rec
+
         game.update({
             "model_prob_home":  probs["model_prob_home"],
             "model_prob_away":  probs["model_prob_away"],
@@ -90,6 +98,10 @@ def main():
             "pitcher_adj_away": probs["pitcher_adj_away"],
             "fte_matched":      True,
         })
+
+    # Elo státusz mentése a doc-ba (dashboard footer mutatja)
+    doc["elo_last_date"]       = elo_state.get("last_game_date", "—")
+    doc["elo_games_processed"] = elo_state.get("games_processed", 0)
 
     fetch_mlb.OUT_FILE.write_text(json.dumps(doc, indent=2))
     log.info("Elo + FIP injected for %d games", len(doc["games"]))
