@@ -40,7 +40,7 @@ h1{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.05em;c
   font-size:10px;font-family:var(--mono);font-weight:600;
   background:#111;color:var(--mu);border:1px solid var(--brd);}
 .bsub{font-family:var(--mono);font-size:9px;color:var(--mu);margin-top:2px;}
-.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;}
 table{width:100%;border-collapse:collapse;min-width:700px;}
 thead th{padding:7px 9px;text-align:left;font-family:var(--mono);font-size:10px;
   font-weight:500;letter-spacing:.08em;color:var(--mu);text-transform:uppercase;
@@ -104,14 +104,31 @@ td{padding:8px 9px;vertical-align:middle;white-space:nowrap;}
 .kn{font-family:var(--mono);font-size:11px;color:var(--brd2);}
 footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
   color:var(--mu);border-top:1px solid var(--brd);line-height:1.8;}
-@media(max-width:600px){h1{font-size:12px;}.hm{display:none;}td{padding:6px 7px;}}
+@media(max-width:640px){
+  h1{font-size:12px;}
+  .hm{display:none;}
+  td{padding:5px 6px;}
+  .tn{display:none;}
+  .side-h,.side-a{display:none;}
+  .pn{width:32px;font-size:10px;}
+  .en{font-size:11px;}
+  .fipb{font-size:10px;padding:1px 3px;}
+  .prec{font-size:9px;}
+  .pnm{font-size:11px;}
+  .oval{font-size:11px;}
+  .gt{font-size:10px;}
+  .ta{font-size:11px;width:26px;}
+  .summary{gap:10px;padding:6px 12px;}
+  .sv{font-size:14px;}
+  footer{font-size:9px;}
+}
 </style>
 </head><body>
 
 <div class="topbar">
 <header>
   <div class="hl"><div class="hico">⚾</div><h1>MLB VALUE DASHBOARD</h1></div>
-  <div class="hm"><span class="ld"></span>2026-05-18 · frissítve 2026-05-18 09:04 UTC · 14 mérkőzés</div>
+  <div class="hm"><span class="ld"></span>2026-05-18 · frissítve 2026-05-18 09:16 UTC · 14 mérkőzés</div>
 </header>
 <div class="legend">
   <div class="li"><span class="bv">🎯 fogadj</span> jobb dobó (W-L + FIP) + pozitív edge</div>
@@ -121,7 +138,7 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
   <div class="si"><span class="sv sb">14</span><span class="sl">mérkőzés</span></div>
   <div class="si"><span class="sv sg">4</span><span class="sl">fogadás</span></div>
   <div class="si"><span class="sv sa">8</span><span class="sl">bullpen flag</span></div>
-  <div class="si"><span class="sv sg">8.3%</span><span class="sl">avg edge (value)</span></div>
+  <div class="si"><span class="sv sg">8.2%</span><span class="sl">avg edge (value)</span></div>
 </div>
 </div>
 
@@ -165,11 +182,11 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
         <div class="pl2"><span class="pnm">Shane McClanahan</span><span class="prec">4-2</span><span class="fipb fe">2.54</span></div>
       </td>
       <td><div class="pbs"><div class="pr"><span class="pl">BAL</span><div class="bw"><div class="b bm" style="width:41%"></div></div><span class="pn">41.3%</span></div><div class="pr"><span class="pl">TBR</span><div class="bw"><div class="b bm" style="width:59%"></div></div><span class="pn">58.7%</span></div></div></td>
-      <td><div class="pbs"><div class="pr"><span class="pl">BAL</span><div class="bw"><div class="b bk" style="width:42%"></div></div><span class="pn">42.1%</span></div><div class="pr"><span class="pl">TBR</span><div class="bw"><div class="b bk" style="width:58%"></div></div><span class="pn">57.9%</span></div></div></td>
-      <td class="co"><div class="opr"><div class="or"><span class="ol">BAL</span><span class="ov op">2.32</span><span class="onv">42.1%</span></div><div class="or"><span class="ol">TBR</span><span class="ov on">1.68</span><span class="onv">57.9%</span></div></div></td>
+      <td><div class="pbs"><div class="pr"><span class="pl">BAL</span><div class="bw"><div class="b bk" style="width:42%"></div></div><span class="pn">41.9%</span></div><div class="pr"><span class="pl">TBR</span><div class="bw"><div class="b bk" style="width:58%"></div></div><span class="pn">58.1%</span></div></div></td>
+      <td class="co"><div class="opr"><div class="or"><span class="ol">BAL</span><span class="ov op">2.33</span><span class="onv">41.9%</span></div><div class="or"><span class="ol">TBR</span><span class="ov on">1.68</span><span class="onv">58.1%</span></div></div></td>
       <td class="ce">
-        <span class="en en">-0.7%</span><span class="es">BAL</span>
-        <span class="en ep">+0.7%</span><span class="es">TBR</span>
+        <span class="en en">-0.5%</span><span class="es">BAL</span>
+        <span class="en ep">+0.5%</span><span class="es">TBR</span>
       </td>
       <td class="cs"><span class="bv">🎯 fogadj</span><br><span class="bsub">TBR ML</span></td>
       <td class="ck"><span class="kn">—</span></td>
@@ -443,12 +460,13 @@ footer{padding:10px 16px;font-family:var(--mono);font-size:10px;
 <footer>
   <div>Modell: saját MLB Elo (K=4, HFA=+24, ⅓ regresszió) + FIP pitcher adj · Odds: Pinnacle no-vig · Edge: 4–10% = value / &gt;10% = kizárás</div>
   <div style="margin-top:4px;color:#3b5a7a">
-    Frissítve: 2026-05-18 09:04 UTC · Napi cron: 11:00 + 14:00 UTC · Nem fogadási tanácsadás.
+    Frissítve: 2026-05-18 09:16 UTC · Napi cron: 11:00 + 14:00 UTC · Nem fogadási tanácsadás.
   </div>
   <div style="margin-top:4px;display:flex;align-items:center;gap:8px;">
-    <span style="color:#1e3a1e;background:#0d2010;border:1px solid #2d5a2d;
-      border-radius:3px;padding:1px 7px;font-size:10px;letter-spacing:.04em;">
-      ✓ Elo — 2026-05-17 meccsek feldolgozva · 9,747 mérkőzés összesen
+    <span style="color:#4ade80;background:#052e16;border:1px solid #22c55e;
+      border-radius:4px;padding:3px 10px;font-size:11px;letter-spacing:.04em;
+      font-weight:600;box-shadow:0 0 8px rgba(34,197,94,.2);">
+      ✓ Elo frissítve — 2026-05-17 &nbsp;·&nbsp; 9,747 meccs feldolgozva
     </span>
   </div>
 </footer>
