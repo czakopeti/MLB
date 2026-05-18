@@ -179,11 +179,26 @@ def fetch_mlb_schedule(game_date: str = TODAY_STR) -> list[dict]:
 def parse_pitcher(pitcher_node: dict | None) -> dict:
     if not pitcher_node:
         return {"id": None, "name": "TBD", "note": "", "record": ""}
-    # Build W-L record string if stats are available
-    stats = pitcher_node.get("stats", {}) or {}
-    pitching = stats.get("pitching", {}) or {}
-    wins   = pitching.get("wins")
-    losses = pitching.get("losses")
+
+    # MLB API returns stats as a LIST: [{"type":..., "group":..., "stats":{...}}]
+    # We find the season pitching entry and extract wins/losses
+    wins = losses = None
+    stats_list = pitcher_node.get("stats", [])
+    if isinstance(stats_list, list):
+        for entry in stats_list:
+            grp  = entry.get("group", {}).get("displayName", "")
+            typ  = entry.get("type",  {}).get("displayName", "")
+            if grp == "pitching" and typ == "season":
+                s      = entry.get("stats", {})
+                wins   = s.get("wins")
+                losses = s.get("losses")
+                break
+    elif isinstance(stats_list, dict):
+        # fallback: old flat format
+        pitching = stats_list.get("pitching", {})
+        wins   = pitching.get("wins")
+        losses = pitching.get("losses")
+
     record = f"{wins}-{losses}" if wins is not None and losses is not None else ""
     return {
         "id":     pitcher_node.get("id"),
