@@ -46,6 +46,39 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
+# ── Pitcher season W-L record fetch ──────────────────────────────────────────
+
+def fetch_pitcher_record(player_id: int, season: int | None = None) -> str:
+    """
+    Fetch a pitcher's season W-L record directly from the MLB Stats API.
+    Returns '5-3' format or '' if unavailable.
+    """
+    if not player_id:
+        return ""
+    if season is None:
+        season = date.today().year
+    url = f"{MLB_API_BASE}/people/{player_id}/stats"
+    params = {
+        "stats":    "season",
+        "group":    "pitching",
+        "season":   season,
+        "sportId":  1,
+    }
+    try:
+        resp = requests.get(url, params=params, timeout=10)
+        resp.raise_for_status()
+        splits = resp.json().get("stats", [{}])[0].get("splits", [])
+        if splits:
+            s = splits[0].get("stat", {})
+            w = s.get("wins")
+            l = s.get("losses")
+            if w is not None and l is not None:
+                return f"{w}-{l}"
+    except Exception as exc:
+        log.debug("W-L fetch failed for player %s: %s", player_id, exc)
+    return ""
+
+
 # ── Team name normalisation ───────────────────────────────────────────────────
 # FiveThirtyEight uses short franchise names; MLB API uses full names.
 # This map converts MLB API full names → FTE abbreviation used in the CSV.
@@ -179,32 +212,13 @@ def fetch_mlb_schedule(game_date: str = TODAY_STR) -> list[dict]:
 def parse_pitcher(pitcher_node: dict | None) -> dict:
     if not pitcher_node:
         return {"id": None, "name": "TBD", "note": "", "record": ""}
-
-    # MLB API returns stats as a LIST: [{"type":..., "group":..., "stats":{...}}]
-    # We find the season pitching entry and extract wins/losses
-    wins = losses = None
-    stats_list = pitcher_node.get("stats", [])
-    if isinstance(stats_list, list):
-        for entry in stats_list:
-            grp  = entry.get("group", {}).get("displayName", "")
-            typ  = entry.get("type",  {}).get("displayName", "")
-            if grp == "pitching" and typ == "season":
-                s      = entry.get("stats", {})
-                wins   = s.get("wins")
-                losses = s.get("losses")
-                break
-    elif isinstance(stats_list, dict):
-        # fallback: old flat format
-        pitching = stats_list.get("pitching", {})
-        wins   = pitching.get("wins")
-        losses = pitching.get("losses")
-
-    record = f"{wins}-{losses}" if wins is not None and losses is not None else ""
+    # Record is fetched separately via fetch_pitcher_record() — schedule API
+    # doesn't reliably return season stats for probable pitchers.
     return {
         "id":     pitcher_node.get("id"),
         "name":   pitcher_node.get("fullName", "TBD"),
         "note":   pitcher_node.get("note", ""),
-        "record": record,
+        "record": "",   # filled in by annotate_pitcher_records() below
     }
 
 
@@ -454,6 +468,33 @@ def _safe_float(val) -> float | None:
         return None
 
 
+# ── Pitcher record annotation ─────────────────────────────────────────────────
+
+def annotate_pitcher_records(games: list[dict]) -> list[dict]:
+    """
+    Fetch W-L records for all starting pitchers via individual API calls.
+    Runs after build_game_record() — uses the pitcher ID already in the record.
+    Batches by unique player ID to avoid duplicate fetches.
+    """
+    season = date.today().year
+    seen: dict[int, str] = {}
+
+    for game in games:
+        for side in ("home_pitcher", "away_pitcher"):
+            p = game.get(side, {})
+            pid = p.get("id")
+            if not pid:
+                continue
+            if pid not in seen:
+                seen[pid] = fetch_pitcher_record(pid, season)
+                log.debug("W-L %s: %s → %s", side, p.get("name"), seen[pid])
+            if seen[pid]:
+                p["record"] = seen[pid]
+
+    log.info("W-L records fetched for %d unique pitchers", len(seen))
+    return games
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main(fetch_bullpen: bool = True) -> list[dict]:
@@ -484,6 +525,10 @@ def main(fetch_bullpen: bool = True) -> list[dict]:
     log.info("Enriched %d games (FTE matched: %d)",
              len(games),
              sum(1 for g in games if g["fte_matched"]))
+
+    # Fetch pitcher W-L records (separate API call per pitcher)
+    log.info("Fetching pitcher W-L records …")
+    games = annotate_pitcher_records(games)
 
     # 4. Bullpen exhaustion (optional, costs extra API calls)
     if fetch_bullpen and games:

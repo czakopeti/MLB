@@ -15,7 +15,7 @@ def to_hu_time(iso_utc):
     if not iso_utc: return "—"
     try:
         dt = datetime.fromisoformat(iso_utc.replace("Z", "+00:00"))
-        off = timedelta(hours=3) if 3 <= dt.month <= 10 else timedelta(hours=2)
+        off = timedelta(hours=2) if 3 <= dt.month <= 10 else timedelta(hours=1)
         return (dt + off).strftime("%H:%M")
     except: return "—"
 
@@ -113,9 +113,9 @@ def game_row(g):
     return f"""    <tr class="{rc}">
       <td class="cm">
         <div class="gt">{t}</div>
-        <div class="tr2"><span class="ta">{aa}</span><span class="tn">{an}</span></div>
+        <div class="tr2"><span class="ta">{aa}</span><span class="tn">{an}</span><span class="side-a">away</span></div>
         <div class="at">@</div>
-        <div class="tr2"><span class="ta">{ha}</span><span class="tn">{hn}</span></div>
+        <div class="tr2"><span class="ta">{ha}</span><span class="tn">{hn}</span><span class="side-h">home</span></div>
         {extra_tags(g)}
       </td>
       <td class="cp">
@@ -186,6 +186,8 @@ td{padding:8px 9px;vertical-align:middle;white-space:nowrap;}
 .tr2{display:flex;align-items:center;gap:5px;line-height:1.75;}
 .ta{font-family:var(--mono);font-size:12px;font-weight:600;color:#e2eeff;width:30px;}
 .tn{font-size:11px;color:var(--mu);}
+.side-h{font-family:var(--mono);font-size:9px;color:#4ade80;background:#052e16;border:1px solid #166534;border-radius:2px;padding:0 3px;margin-left:4px;flex-shrink:0;}
+.side-a{font-family:var(--mono);font-size:9px;color:var(--mu);background:transparent;border:1px solid var(--brd2);border-radius:2px;padding:0 3px;margin-left:4px;flex-shrink:0;}
 .at{font-family:var(--mono);font-size:9px;color:var(--brd2);}
 .tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:3px;}
 .tag{font-size:9px;font-family:var(--mono);padding:0 4px;border-radius:2px;border:1px solid;}
