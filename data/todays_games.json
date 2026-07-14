@@ -1,1 +1,59 @@
-[]
+{
+  "generated_at": "2026-07-14T12:04:24.389922+00:00",
+  "date": "2026-07-14",
+  "game_count": 1,
+  "games": [
+    {
+      "game_pk": 823443,
+      "game_date": "2026-07-15T00:00:00Z",
+      "status": "Preview",
+      "series": "MLB All-Star Game",
+      "game_number": 1,
+      "games_in_series": 1,
+      "home_name": "National League All-Stars",
+      "away_name": "American League All-Stars",
+      "home_abbr": "NL",
+      "away_abbr": "AL",
+      "home_division": "Unknown",
+      "away_division": "Unknown",
+      "venue": "Citizens Bank Park",
+      "park_flag": false,
+      "home_pitcher": {
+        "id": 650911,
+        "name": "Cristopher S\u00e1nchez",
+        "note": "",
+        "record": "11-4"
+      },
+      "away_pitcher": {
+        "id": 656302,
+        "name": "Dylan Cease",
+        "note": "",
+        "record": "6-4"
+      },
+      "fte_matched": true,
+      "elo_home": 1500.0,
+      "elo_away": 1500.0,
+      "pitcher_home_rgs": null,
+      "pitcher_away_rgs": null,
+      "model_prob_home": 0.5158,
+      "model_prob_away": 0.4842,
+      "pinnacle_home_odds": null,
+      "pinnacle_away_odds": null,
+      "no_vig_prob_home": null,
+      "no_vig_prob_away": null,
+      "home_fip": 2.75,
+      "away_fip": 2.23,
+      "edge_home": null,
+      "edge_away": null,
+      "signal": "no_odds",
+      "kelly_stake": null,
+      "bullpen_flag_home": false,
+      "bullpen_flag_away": false,
+      "pitcher_adj_home": 35.0,
+      "pitcher_adj_away": 48.0,
+      "bet_side": null
+    }
+  ],
+  "elo_last_date": "2026-07-12",
+  "elo_games_processed": 10179
+}
