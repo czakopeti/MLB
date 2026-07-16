@@ -1,1 +1,61 @@
-[]
+{
+  "generated_at": "2026-07-16T12:13:07.092602+00:00",
+  "date": "2026-07-16",
+  "game_count": 1,
+  "games": [
+    {
+      "game_pk": 823440,
+      "game_date": "2026-07-16T23:10:00Z",
+      "status": "Preview",
+      "series": "Regular Season",
+      "game_number": 1,
+      "games_in_series": 3,
+      "home_name": "Philadelphia Phillies",
+      "away_name": "New York Mets",
+      "home_abbr": "PHI",
+      "away_abbr": "NYM",
+      "home_division": "NL East",
+      "away_division": "NL East",
+      "venue": "Citizens Bank Park",
+      "park_flag": false,
+      "home_pitcher": {
+        "id": 605400,
+        "name": "Aaron Nola",
+        "note": "",
+        "record": "3-6"
+      },
+      "away_pitcher": {
+        "id": 681035,
+        "name": "Christian Scott",
+        "note": "",
+        "record": "2-1"
+      },
+      "fte_matched": true,
+      "elo_home": 1558.6,
+      "elo_away": 1504.0,
+      "pitcher_home_rgs": null,
+      "pitcher_away_rgs": null,
+      "model_prob_home": 0.5917,
+      "model_prob_away": 0.4083,
+      "pinnacle_home_odds": -130,
+      "pinnacle_away_odds": 117,
+      "no_vig_prob_home": 0.5509,
+      "no_vig_prob_away": 0.4491,
+      "home_fip": 4.72,
+      "away_fip": 4.15,
+      "edge_home": 0.0408,
+      "edge_away": -0.0408,
+      "signal": "none",
+      "kelly_stake": null,
+      "bullpen_flag_home": false,
+      "bullpen_flag_away": false,
+      "bullpen_pitches_home_3d": 0,
+      "bullpen_pitches_away_3d": 0,
+      "pitcher_adj_home": -14.2,
+      "pitcher_adj_away": 0.0,
+      "bet_side": null
+    }
+  ],
+  "elo_last_date": "2026-07-12",
+  "elo_games_processed": 10179
+}
