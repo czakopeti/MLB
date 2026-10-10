@@ -1,1 +1,61 @@
-[]
+{
+  "generated_at": "2026-10-10T15:58:39.045743+00:00",
+  "date": "2026-10-10",
+  "game_count": 1,
+  "games": [
+    {
+      "game_pk": 849831,
+      "game_date": "2026-10-11T00:00:00Z",
+      "status": "Preview",
+      "series": "AL Division Series",
+      "game_number": 1,
+      "games_in_series": 5,
+      "home_name": "Cleveland Guardians",
+      "away_name": "Chicago White Sox",
+      "home_abbr": "CLE",
+      "away_abbr": "CHW",
+      "home_division": "AL Central",
+      "away_division": "AL Central",
+      "venue": "Progressive Field",
+      "park_flag": false,
+      "home_pitcher": {
+        "id": 668909,
+        "name": "Gavin Williams",
+        "note": "",
+        "record": "14-8"
+      },
+      "away_pitcher": {
+        "id": 680732,
+        "name": "Sean Burke",
+        "note": "",
+        "record": "11-7"
+      },
+      "fte_matched": true,
+      "elo_home": 1528.2,
+      "elo_away": 1432.9,
+      "pitcher_home_rgs": null,
+      "pitcher_away_rgs": null,
+      "model_prob_home": 0.67,
+      "model_prob_away": 0.33,
+      "pinnacle_home_odds": null,
+      "pinnacle_away_odds": null,
+      "no_vig_prob_home": null,
+      "no_vig_prob_away": null,
+      "home_fip": 3.52,
+      "away_fip": 3.67,
+      "edge_home": null,
+      "edge_away": null,
+      "signal": "no_odds",
+      "kelly_stake": null,
+      "bullpen_flag_home": true,
+      "bullpen_flag_away": true,
+      "bullpen_pitches_home_3d": 261,
+      "bullpen_pitches_away_3d": 303,
+      "pitcher_adj_home": 15.8,
+      "pitcher_adj_away": 12.0,
+      "bet_side": null
+    }
+  ],
+  "elo_last_date": "2026-09-26",
+  "elo_games_processed": 10730
+}
