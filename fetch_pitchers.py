@@ -79,7 +79,7 @@ def fetch_pitching_stats(season: int) -> dict[str, dict]:
         "fields": (
             "stats,splits,player,fullName,"
             "stat,strikeOuts,baseOnBalls,homeRuns,"
-            "hitBatsmen,inningsPitched,gamesStarted,era"
+            "hitBatsmen,inningsPitched,gamesStarted,wins,losses,era"
         ),
     }
 
