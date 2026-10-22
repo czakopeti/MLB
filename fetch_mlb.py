@@ -497,6 +497,16 @@ def annotate_pitcher_records(games: list[dict]) -> list[dict]:
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+def empty_document() -> dict:
+    """Schedule document with no games. Downstream steps always read this shape."""
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "date":         TODAY_STR,
+        "game_count":   0,
+        "games":        [],
+    }
+
+
 def main(fetch_bullpen: bool = True) -> list[dict]:
     DATA_DIR.mkdir(exist_ok=True)
 
@@ -507,7 +517,7 @@ def main(fetch_bullpen: bool = True) -> list[dict]:
     raw_games = fetch_mlb_schedule()
     if not raw_games:
         log.warning("No games today — writing empty output.")
-        OUT_FILE.write_text(json.dumps([], indent=2))
+        OUT_FILE.write_text(json.dumps(empty_document(), indent=2))
         return []
 
     # 3. Build enriched records

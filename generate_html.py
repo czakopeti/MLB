@@ -3,21 +3,24 @@ generate_html.py — MLB Value Dashboard
 Games sorted by start time. No AL/NL split.
 """
 import json, logging
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 DATA_DIR   = Path("data")
 GAMES_FILE = DATA_DIR / "todays_games.json"
 OUT_HTML   = Path("index.html")
 log = logging.getLogger(__name__)
 
+BUDAPEST = ZoneInfo("Europe/Budapest")
+
 def to_hu_time(iso_utc):
     if not iso_utc: return "—"
     try:
         dt = datetime.fromisoformat(iso_utc.replace("Z", "+00:00"))
-        off = timedelta(hours=2) if 3 <= dt.month <= 10 else timedelta(hours=1)
-        return (dt + off).strftime("%H:%M")
-    except: return "—"
+        return dt.astimezone(BUDAPEST).strftime("%H:%M")
+    except Exception:
+        return "—"
 
 def american_to_decimal(v):
     """Convert American odds to European decimal format."""
@@ -30,7 +33,7 @@ def fmt_odds(v):
     return f"{d:.2f}" if d is not None else "—"
 def fmt_pct(v):  return f"{v*100:.1f}%" if v is not None else "—"
 def fmt_edge(v): return f"{'+' if (v or 0) >= 0 else ''}{(v or 0)*100:.1f}%" if v is not None else "—"
-def edge_cls(v): return "ep" if (v or 0) > 0 else ("en" if (v or 0) < 0 else "eu")
+def edge_cls(v): return "ep" if (v or 0) > 0 else ("en2" if (v or 0) < 0 else "eu")
 def bar(v):      return round(min(max((v or 0.5), 0), 1) * 100)
 
 def fip_cls(v):
@@ -51,7 +54,7 @@ def signal_html(g):
     return '<span class="bn">—</span>'
 
 def kelly_html(g):
-    if g.get("signal")=="value" and g.get("kelly_stake"):
+    if g.get("signal")=="bet" and g.get("kelly_stake"):
         return f'<span class="kv">{g["kelly_stake"]*100:.1f}%</span><span class="ks">bankroll</span>'
     return '<span class="kn">—</span>'
 
@@ -278,7 +281,14 @@ def render(doc):
           for g in games if g.get("signal")=="bet"]
     avg = f"{sum(ve)/len(ve)*100:.1f}%" if ve else "—"
 
-    rows = "\n".join(game_row(g) for g in games)
+    if games:
+        rows = "\n".join(game_row(g) for g in games)
+    else:
+        rows = (
+            '<tr class="rn"><td colspan="8" '
+            'style="color:var(--mu);font-family:var(--mono);padding:18px 12px;">'
+            "Nincs mai mérkőzés.</td></tr>"
+        )
 
     return f"""<!DOCTYPE html>
 <html lang="hu">
@@ -303,7 +313,7 @@ def render(doc):
   <div class="si"><span class="sv sb">{n}</span><span class="sl">mérkőzés</span></div>
   <div class="si"><span class="sv sg">{cnt['bet']}</span><span class="sl">fogadás</span></div>
   <div class="si"><span class="sv sa">{cnt['bull']}</span><span class="sl">bullpen flag</span></div>
-  <div class="si"><span class="sv sg">{avg}</span><span class="sl">avg edge (value)</span></div>
+  <div class="si"><span class="sv sg">{avg}</span><span class="sl">avg edge</span></div>
 </div>
 </div>
 
@@ -312,7 +322,7 @@ def render(doc):
 </tbody></table></div>
 
 <footer>
-  <div>Modell: saját MLB Elo (K=4, HFA=+24, ⅓ regresszió) + FIP pitcher adj · Odds: Pinnacle no-vig · Edge: 4–10% = value / &gt;10% = kizárás</div>
+  <div>Modell: saját MLB Elo (K=4, hazai +24, szezon elején ⅓ regresszió) + FIP dobókorrekció · Odds: Pinnacle no-vig · Fogadás: ugyanazon az oldalon jobb W-L és jobb FIP, plusz pozitív edge</div>
   <div style="margin-top:4px;color:#3b5a7a">
     Frissítve: {ts} UTC · Napi cron: 11:00 + 14:00 UTC · Nem fogadási tanácsadás.
   </div>
@@ -320,7 +330,7 @@ def render(doc):
     <span style="color:#4ade80;background:#052e16;border:1px solid #22c55e;
       border-radius:4px;padding:3px 10px;font-size:11px;letter-spacing:.04em;
       font-weight:600;box-shadow:0 0 8px rgba(34,197,94,.2);">
-      ✓ Elo frissítve — {elo_last_date} &nbsp;·&nbsp; {elo_games:,} meccs feldolgozva
+      Elo alapszakasz — utolsó meccs {elo_last_date} &nbsp;·&nbsp; {elo_games:,} meccs feldolgozva
     </span>
   </div>
 </footer>

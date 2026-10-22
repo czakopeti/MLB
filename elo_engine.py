@@ -14,8 +14,8 @@ Data source:
   (free, no API key, returns final scores with winning/losing team)
 
 Typical usage:
-  python elo_engine.py --bootstrap 2022 2023 2024 2025
-  python elo_engine.py --update          # add yesterday's results
+  python elo_engine.py --bootstrap 2022 2023 2024 2025 2026
+  python elo_engine.py --update          # catch up through yesterday
   python elo_engine.py --ratings         # print current ratings table
 """
 
@@ -200,17 +200,11 @@ def _api_get(path: str, params: dict) -> dict:
     return resp.json()
 
 
-def fetch_season_results(year: int) -> list[dict]:
+def fetch_range_results(start: str, end: str) -> list[dict]:
     """
-    Fetch all completed regular-season games for a given year.
-    Returns list of dicts: {date, home, away, home_score, away_score, winner}
+    Fetch completed regular-season games from start through end (YYYY-MM-DD).
     """
-    # MLB regular season boundaries (approximate; API only returns actual games)
-    start = f"{year}-03-20"
-    end   = f"{year}-11-05"
-
-    log.info("Fetching %d season results from MLB API …", year)
-
+    log.info("Fetching MLB results %s → %s …", start, end)
     params = {
         "sportId":   1,
         "startDate": start,
@@ -218,41 +212,32 @@ def fetch_season_results(year: int) -> list[dict]:
         "hydrate":   "linescore,team",
         "gameType":  "R",           # Regular season only
     }
-
     data  = _api_get("/schedule", params)
     dates = data.get("dates", [])
     results: list[dict] = []
-
     for date_block in dates:
         for game in date_block.get("games", []):
             rec = _parse_game_result(game)
             if rec:
                 results.append(rec)
-
-    log.info("  %d completed games found for %d", len(results), year)
+    log.info("  %d completed games", len(results))
     return results
+
+
+def fetch_season_results(year: int) -> list[dict]:
+    """
+    Fetch all completed regular-season games for a given year.
+    Returns list of dicts: {date, home, away, home_score, away_score, home_won}
+    """
+    # MLB regular season boundaries (approximate; API only returns actual games)
+    return fetch_range_results(f"{year}-03-20", f"{year}-11-05")
 
 
 def fetch_date_results(game_date: str) -> list[dict]:
     """
     Fetch completed games for a single date (YYYY-MM-DD).
-    Used for daily incremental updates.
     """
-    params = {
-        "sportId":  1,
-        "date":     game_date,
-        "hydrate":  "linescore,team",
-        "gameType": "R",
-    }
-    data  = _api_get("/schedule", params)
-    dates = data.get("dates", [])
-    results: list[dict] = []
-    for date_block in dates:
-        for game in date_block.get("games", []):
-            rec = _parse_game_result(game)
-            if rec:
-                results.append(rec)
-    return results
+    return fetch_range_results(game_date, game_date)
 
 
 def _parse_game_result(game: dict) -> Optional[dict]:
@@ -315,7 +300,11 @@ def process_games(
     Returns updated state.
     """
     ratings    = state["ratings"]
+    # Season of the last game already stored, so a later call that only
+    # contains the new season still regresses once before its first game.
     last_year  = None
+    if state.get("last_game_date"):
+        last_year = int(str(state["last_game_date"])[:4])
     log_handle = None
 
     if log_games:
@@ -328,13 +317,13 @@ def process_games(
     for game in games_sorted:
         game_year = int(game["date"][:4])
 
-        # Season transition: regress ratings toward mean
-        if last_year is not None and game_year != last_year:
+        # Season transition: regress ratings toward mean once per new season.
+        if last_year is not None and game_year > last_year:
             log.info("Season boundary %d→%d: regressing ratings …",
                      last_year, game_year)
             ratings = regress_ratings(ratings)
-            if game_year not in state["seasons_processed"]:
-                state["seasons_processed"].append(game_year)
+        if game_year not in state["seasons_processed"]:
+            state["seasons_processed"].append(game_year)
 
         last_year = game_year
 
@@ -396,9 +385,6 @@ def bootstrap(years: list[int]) -> dict:
     state = _empty_state()
 
     for year in sorted(years):
-        if year not in state["seasons_processed"]:
-            state["seasons_processed"].append(year)
-
         games = fetch_season_results(year)
         if not games:
             log.warning("No games returned for %d — skipping", year)
@@ -414,27 +400,40 @@ def bootstrap(years: list[int]) -> dict:
 
 def update_yesterday(state: Optional[dict] = None) -> dict:
     """
-    Fetch yesterday's results and update ratings.
-    Safe to call daily from GitHub Actions.
+    Apply every completed regular-season game after last_game_date through
+    yesterday. A missed day is picked up on the next run, and the first game
+    of a new season still triggers the one-third regression.
     """
     if state is None:
         state = load_ratings()
 
-    yesterday = (date.today() - timedelta(days=1)).isoformat()
+    yesterday = date.today() - timedelta(days=1)
+    yesterday_str = yesterday.isoformat()
+    last = state.get("last_game_date")
 
-    # Avoid reprocessing
-    if state.get("last_game_date") and state["last_game_date"] >= yesterday:
-        log.info("Ratings already current through %s — nothing to do.",
-                 state["last_game_date"])
+    if last and last >= yesterday_str:
+        log.info("Ratings already current through %s — nothing to do.", last)
         return state
 
-    log.info("Fetching results for %s …", yesterday)
-    games = fetch_date_results(yesterday)
-    log.info("  %d completed games on %s", len(games), yesterday)
+    start = date.fromisoformat(last) + timedelta(days=1) if last else yesterday
+    if start > yesterday:
+        return state
 
+    games: list[dict] = []
+    cursor = start
+    while cursor <= yesterday:
+        chunk_end = min(date(cursor.year, 12, 31), yesterday)
+        games.extend(fetch_range_results(cursor.isoformat(), chunk_end.isoformat()))
+        cursor = chunk_end + timedelta(days=1)
+        time.sleep(API_SLEEP)
+
+    log.info("  %d completed games from %s through %s",
+             len(games), start.isoformat(), yesterday_str)
     if games:
         state = process_games(games, state, log_games=True)
         save_ratings(state)
+    else:
+        log.info("No completed regular-season games in that window.")
 
     return state
 
@@ -516,7 +515,7 @@ def main() -> None:
     )
     group.add_argument(
         "--update", action="store_true",
-        help="Add yesterday's results to existing ratings"
+        help="Apply completed games since the last update, through yesterday"
     )
     group.add_argument(
         "--ratings", action="store_true",

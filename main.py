@@ -17,6 +17,7 @@ import json
 import logging
 import os
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -42,6 +43,82 @@ def notify(msg: str) -> None:
         log.warning("ntfy failed: %s", e)
 
 
+def _load_games_doc():
+    """Read todays_games.json. An empty list (older runs) becomes an empty document."""
+    import fetch_mlb
+    raw = json.loads(fetch_mlb.OUT_FILE.read_text())
+    if isinstance(raw, dict) and isinstance(raw.get("games"), list):
+        return raw
+    log.warning("todays_games.json was not a game document — using an empty slate.")
+    return fetch_mlb.empty_document()
+
+
+def _stamp_elo(doc: dict, elo_state: dict) -> None:
+    doc["elo_last_date"] = elo_state.get("last_game_date") or "—"
+    doc["elo_games_processed"] = elo_state.get("games_processed", 0)
+
+
+def _write_doc(doc: dict) -> None:
+    import fetch_mlb
+    fetch_mlb.OUT_FILE.write_text(json.dumps(doc, indent=2))
+
+
+def _result_message(doc: dict, counts: dict) -> str:
+    """Notification text. Signal value is 'bet' — the same literal value_calc writes."""
+    games = doc.get("games", [])
+    bets_n = counts.get("bet", 0)
+    bull = sum(
+        1 for g in games
+        if g.get("bullpen_flag_home") or g.get("bullpen_flag_away")
+    )
+    if bets_n > 0:
+        parts = []
+        for g in games:
+            if g.get("signal") != "bet":
+                continue
+            side = g.get("bet_side")
+            edge = g.get("edge_home") if side == "home" else g.get("edge_away")
+            kelly = g.get("kelly_stake") or 0
+            parts.append(
+                f"{g['away_abbr']}@{g['home_abbr']} {side or '?'} "
+                f"{(edge or 0) * 100:+.1f}% Kelly={kelly * 100:.1f}%"
+            )
+        return (
+            f"⚾ MLB {doc.get('date')}: {bets_n} fogadás, {bull} bullpen | "
+            + " | ".join(parts)
+        )
+    return (
+        f"⚾ MLB {doc.get('date')}: {len(games)} meccs, nincs fogadás, {bull} bullpen"
+    )
+
+
+def _notify_results(doc: dict, counts: dict) -> None:
+    notify(_result_message(doc, counts))
+    games = doc.get("games", [])
+    log.info(
+        "Pipeline kész. bet=%d bullpen=%d total=%d",
+        counts.get("bet", 0),
+        sum(1 for g in games if g.get("bullpen_flag_home") or g.get("bullpen_flag_away")),
+        len(games),
+    )
+
+
+def _finish_without_games() -> None:
+    """Off day: still fold yesterday into Elo, and replace the dashboard."""
+    import elo_engine as ee
+    import generate_html as gh
+
+    elo_state = ee.update_yesterday()
+    doc = _load_games_doc()
+    _stamp_elo(doc, elo_state)
+    doc["generated_at"] = datetime.now(timezone.utc).isoformat()
+    _write_doc(doc)
+    gh.main()
+    notify(f"⚾ MLB {doc.get('date')}: nincs mai mérkőzés.")
+    log.info("No games today. Elo through %s. Empty dashboard written.",
+             elo_state.get("last_game_date"))
+
+
 def main():
     DATA_DIR.mkdir(exist_ok=True)
 
@@ -50,8 +127,8 @@ def main():
     import fetch_mlb
     games = fetch_mlb.main(fetch_bullpen=True)
     if not games:
-        log.warning("No games today — stopping.")
-        notify("MLB Dashboard: nincs mai mérkőzés.")
+        log.warning("No games today — skipping odds, still updating Elo and HTML.")
+        _finish_without_games()
         return
 
     # ── 2. Elo probabilities + FIP ────────────────────────────────────────────
@@ -59,7 +136,7 @@ def main():
     import elo_engine as ee
     import fetch_pitchers as fp
 
-    # Update Elo with yesterday's results (idempotent)
+    # Catch up Elo through yesterday (idempotent if already current)
     ee.update_yesterday()
     elo_state = ee.load_ratings()
 
@@ -67,7 +144,7 @@ def main():
     fip_data    = fp.load_fip()
     record_data = fp.load_records()
 
-    doc = json.loads(fetch_mlb.OUT_FILE.read_text())
+    doc = _load_games_doc()
     for game in doc["games"]:
         h_name = game["home_pitcher"].get("name", "TBD")
         a_name = game["away_pitcher"].get("name", "TBD")
@@ -100,10 +177,9 @@ def main():
         })
 
     # Elo státusz mentése a doc-ba (dashboard footer mutatja)
-    doc["elo_last_date"]       = elo_state.get("last_game_date", "—")
-    doc["elo_games_processed"] = elo_state.get("games_processed", 0)
+    _stamp_elo(doc, elo_state)
 
-    fetch_mlb.OUT_FILE.write_text(json.dumps(doc, indent=2))
+    _write_doc(doc)
     log.info("Elo + FIP injected for %d games", len(doc["games"]))
 
     # ── 3. Pinnacle odds ──────────────────────────────────────────────────────
@@ -126,23 +202,8 @@ def main():
     gh.main()
 
     # ── ntfy notification ─────────────────────────────────────────────────────
-    v = counts.get("value", 0)
-    f = counts.get("flag", 0)
-    total = len(doc["games"])
-
-    if v > 0:
-        doc2   = json.loads(fetch_mlb.OUT_FILE.read_text())
-        bets   = [
-            f"{g['away_abbr']}@{g['home_abbr']} {g.get('bet_side','?')} "
-            f"{(g.get('edge_home') or g.get('edge_away') or 0)*100:+.1f}% "
-            f"Kelly={((g.get('kelly_stake') or 0)*100):.1f}%"
-            for g in doc2["games"] if g.get("signal") == "value"
-        ]
-        notify(f"⚾ MLB {fetch_mlb.TODAY_STR}: {v} value bet, {f} piros | " + " | ".join(bets))
-    else:
-        notify(f"⚾ MLB {fetch_mlb.TODAY_STR}: {total} meccs, nincs value bet, {f} piros zászló")
-
-    log.info("Pipeline kész. value=%d flag=%d total=%d", v, f, total)
+    doc2 = _load_games_doc()
+    _notify_results(doc2, counts)
 
 
 if __name__ == "__main__":

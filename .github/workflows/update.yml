@@ -29,8 +29,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # FanGraphs FIP — csak hetente frissül (ha cache > 7 nap)
-      - name: Refresh FIP cache (weekly)
+      # FIP a MLB Stats API-ból, napi cache (fetch_pitchers.CACHE_DAYS)
+      - name: Refresh FIP cache
         run: |
           if python fetch_pitchers.py --check; then
             echo "FIP cache fresh, skipping"
@@ -43,7 +43,9 @@ jobs:
       # Kézzel is futtatható: Actions → Run workflow → check "bootstrap"
       - name: Bootstrap Elo (first run only)
         if: ${{ !hashFiles('data/elo_ratings.json') }}
-        run: python elo_engine.py --bootstrap 2022 2023 2024 2025
+        run: |
+          years=$(python -c "from datetime import date; print(' '.join(str(y) for y in range(2022, date.today().year + 1)))")
+          python elo_engine.py --bootstrap $years
         env:
           # Bootstrap sok API hívás — nincs API key szükséges (MLB Stats API szabad)
           PYTHONUNBUFFERED: "1"
