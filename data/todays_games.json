@@ -1,1 +1,61 @@
-[]
+{
+  "generated_at": "2026-10-26T17:02:58.963171+00:00",
+  "date": "2026-10-26",
+  "game_count": 1,
+  "games": [
+    {
+      "game_pk": 849804,
+      "game_date": "2026-10-27T00:00:00Z",
+      "status": "Preview",
+      "series": "World Series",
+      "game_number": 1,
+      "games_in_series": 7,
+      "home_name": "Tampa Bay Rays",
+      "away_name": "Milwaukee Brewers",
+      "home_abbr": "TBR",
+      "away_abbr": "MIL",
+      "home_division": "AL East",
+      "away_division": "NL Central",
+      "venue": "Tropicana Field",
+      "park_flag": false,
+      "home_pitcher": {
+        "id": 642547,
+        "name": "Freddy Peralta",
+        "note": "",
+        "record": "10-11"
+      },
+      "away_pitcher": {
+        "id": 688107,
+        "name": "Robert Gasser",
+        "note": "",
+        "record": "5-5"
+      },
+      "fte_matched": true,
+      "elo_home": 1522.7,
+      "elo_away": 1583.7,
+      "pitcher_home_rgs": null,
+      "pitcher_away_rgs": null,
+      "model_prob_home": 0.4452,
+      "model_prob_away": 0.5548,
+      "pinnacle_home_odds": -111,
+      "pinnacle_away_odds": 103,
+      "no_vig_prob_home": 0.5164,
+      "no_vig_prob_away": 0.4836,
+      "home_fip": 4.33,
+      "away_fip": 4.28,
+      "edge_home": -0.0712,
+      "edge_away": 0.0712,
+      "signal": "bet",
+      "kelly_stake": 0.03,
+      "bullpen_flag_home": false,
+      "bullpen_flag_away": false,
+      "bullpen_pitches_home_3d": 152,
+      "bullpen_pitches_away_3d": 148,
+      "pitcher_adj_home": -4.5,
+      "pitcher_adj_away": -3.2,
+      "bet_side": "away"
+    }
+  ],
+  "elo_last_date": "2026-09-26",
+  "elo_games_processed": 10730
+}
